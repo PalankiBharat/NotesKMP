@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.4"
+agp = "8.2.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -36,11 +36,15 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 
+#Common Libraries
+kotlinx_serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin"}
+
+
 #Ktor Server Libraries
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-contentnegotiaiton = {module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor"}
-ktor-kotlinx_serialization = {module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor"}
+ktor-kotlinx_serialization = {module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor"}
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
 ktor_kmongo = {module = "org.litote.kmongo:kmongo", version.ref = "kmongo"}
