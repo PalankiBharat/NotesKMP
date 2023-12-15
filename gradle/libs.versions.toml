@@ -17,7 +17,7 @@ junit = "4.13.2"
 kotlin = "1.9.21"
 ktor = "2.3.7"
 logback = "1.4.14"
-kmongo = "4.11.0"
+mongo = "4.11.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -47,8 +47,7 @@ ktor-contentnegotiaiton = {module = "io.ktor:ktor-server-content-negotiation-jvm
 ktor-kotlinx_serialization = {module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor"}
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
-ktor_kmongo = {module = "org.litote.kmongo:kmongo", version.ref = "kmongo"}
-ktor_kmongo_coroutines = {module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo"}
+ktor_mongo = {module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongo"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

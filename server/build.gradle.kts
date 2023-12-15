@@ -22,6 +22,5 @@ dependencies {
     testImplementation(libs.kotlin.test.junit)
 
     // kmongo
-    implementation(libs.ktor.kmongo)
-    implementation(libs.ktor.kmongo.coroutines)
+    implementation(libs.ktor.mongo)
 }
