@@ -3,5 +3,5 @@ data class Note(
     val title: String,
     val description: String,
     val dateCreated: String,
-    val dateUpdated: String
+    val dateUpdated: String,
 )
