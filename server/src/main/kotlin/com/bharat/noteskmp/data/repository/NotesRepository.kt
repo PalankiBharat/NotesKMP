@@ -5,7 +5,7 @@ import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.request.AddNotesRequest
 
 interface NotesRepository {
-    suspend fun addNote(note: AddNotesRequest): BasicResponseModel<Nothing>
+    suspend fun addNote(note: Note): Boolean
 
-    suspend fun getNotesPerUserId(userId:String): BasicResponseModel<List<Note>>
+    suspend fun getNotesPerUserId(userId:String): List<Note>
 }

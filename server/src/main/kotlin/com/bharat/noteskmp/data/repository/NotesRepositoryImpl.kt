@@ -24,36 +24,14 @@ class NotesRepositoryImpl(
     private val database = mongoClient.getDatabase(DATABASE_NAME)
     private val notesCollection = database.getCollection<Note>(NOTES_COLLECTION_NAME)
     val userCollection = database.getCollection<User>(USER_COLLECTION_NAME)
-    override suspend fun addNote(note: AddNotesRequest): BasicResponseModel<Nothing> {
-        return try {
-            val isNotesAdded = notesCollection.insertOne(
-                Note(
-                    id = ObjectId().toHexString(),
-                    title = note.title,
-                    userId = note.userId,
-                    description = note.description,
-                    dateCreated = System.currentTimeMillis(),
-                    dateUpdated = 0L,
-                )
+    override suspend fun addNote(note: Note): Boolean {
+        return notesCollection.insertOne(
+              note
             ).wasAcknowledged()
-            if (!isNotesAdded) {
-                failureResponse(BASIC_ERROR_MESSAGE)
-            } else {
-                successResponse(data = null, message = "Note Added Successfully")
-            }
-        } catch (e: Exception) {
-            failureResponse(BASIC_ERROR_MESSAGE)
-        }
     }
 
-    override suspend fun getNotesPerUserId(userId: String): BasicResponseModel<List<Note>> {
-        return try {
-            val resultsFlow = notesCollection.withDocumentClass<Note>()
-                .find(lt(Note::userId.name, userId)).toList()
-            successResponse(data = resultsFlow, message = "List Fetched Successfully")
-        }catch (e: Exception) {
-            e.message
-            failureResponse(BASIC_ERROR_MESSAGE)
-        }
+    override suspend fun getNotesPerUserId(userId: String): List<Note> {
+       return notesCollection.withDocumentClass<Note>()
+            .find(lt(Note::userId.name, userId)).toList()
     }
 }
