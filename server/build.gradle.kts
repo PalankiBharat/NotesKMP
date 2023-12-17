@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
     application
+    alias(libs.plugins.kotlinxSerialization)
+
 }
 
 group = "com.bharat.noteskmp"
@@ -21,6 +23,7 @@ dependencies {
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)
 
-    // kmongo
+    // Mongo Driver
     implementation(libs.ktor.mongo)
+    implementation(libs.mongoBson)
 }
