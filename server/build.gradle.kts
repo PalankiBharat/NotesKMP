@@ -26,4 +26,11 @@ dependencies {
     // Mongo Driver
     implementation(libs.ktor.mongo)
     implementation(libs.mongoBson)
+
+    // auth jwt
+    implementation(libs.ktor.server.auth)
+    implementation(libs.ktor.server.jwt)
+
+    // commons codec
+    implementation(libs.commonCodec)
 }

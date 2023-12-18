@@ -1,13 +1,9 @@
 package com.bharat.noteskmp.Route
 
-import Note
-import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.repository.NotesRepositoryImpl
 import com.bharat.noteskmp.data.request.AddNotesRequest
-import com.bharat.noteskmp.data.response.failureResponse
 import com.bharat.noteskmp.service.NotesService
 import com.bharat.noteskmp.service.NotesServiceImpl
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*

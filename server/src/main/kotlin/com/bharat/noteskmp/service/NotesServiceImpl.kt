@@ -1,7 +1,6 @@
 package com.bharat.noteskmp.service
 
 import Note
-import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.request.AddNotesRequest
 import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.response.failureResponse
@@ -10,11 +9,9 @@ import com.bharat.noteskmp.utils.StringConstants
 import com.bharat.noteskmp.utils.commonResult
 import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
-import com.mongodb.client.model.Filters
-import io.ktor.http.*
-import kotlinx.coroutines.flow.toList
+import data.respository.NotesRepository
+import io.ktor.http.HttpStatusCode
 import org.bson.types.ObjectId
-import org.w3c.dom.traversal.NodeIterator
 
 class NotesServiceImpl(
     val notesRepository: NotesRepository
