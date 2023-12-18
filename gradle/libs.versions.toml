@@ -54,6 +54,11 @@ ktor_mongo = {module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.re
 mongoBson = {module = "org.mongodb:bson-kotlinx", version.ref = "mongo"}
 commonCodec = {module = "commons-codec:commons-codec", version.ref = "commonCodecVersion"}
 
+# ktor Client
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
