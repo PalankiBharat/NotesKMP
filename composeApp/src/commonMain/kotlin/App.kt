@@ -20,6 +20,6 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun App() {
     MaterialTheme {
-        LoginSignupScreen()
+
     }
 }
