@@ -1,4 +1,4 @@
-package data.respository
+package data.respository.auth
 
 import data.requests.SignupRequest
 

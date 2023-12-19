@@ -6,10 +6,10 @@ import com.bharat.noteskmp.security.hashing.SHA256HashingService
 import com.bharat.noteskmp.utils.StringConstants
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import data.requests.SignupRequest
-import data.respository.AuthRepository
+import data.respository.auth.AuthRepository
 import org.bson.types.ObjectId
 
-class AuthRepositoryImpl:AuthRepository {
+class AuthRepositoryImpl: AuthRepository {
     val hashingService: HashingService = SHA256HashingService()
     private val uri = StringConstants.CONNECTION_STRING_URL
     private val mongoClient = MongoClient.create(uri)

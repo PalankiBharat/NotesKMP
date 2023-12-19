@@ -9,9 +9,9 @@ plugins {
 kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-       browser()
+        browser()
     }
-    
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -19,17 +19,19 @@ kotlin {
             }
         }
     }
-    
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    
+
     jvm()
-    
+
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
-        implementation(libs.kotlinx.serialization)
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
     }
 }

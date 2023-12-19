@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.updateAndGet
 
 class AuthViewModel {
 
-    private val _viewStates = MutableStateFlow<AuthViewStates>(AuthViewStates())
+    private val _viewStates = MutableStateFlow(AuthViewStates())
     val viewStates = _viewStates.asStateFlow()
 
     fun setStateEvents(stateEvents: AuthStateEvents) {

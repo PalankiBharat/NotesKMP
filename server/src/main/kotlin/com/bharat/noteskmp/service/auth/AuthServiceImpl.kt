@@ -8,7 +8,7 @@ import com.bharat.noteskmp.utils.StringConstants
 import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
 import data.requests.SignupRequest
-import data.respository.AuthRepository
+import data.respository.auth.AuthRepository
 import io.ktor.http.*
 
 class AuthServiceImpl(

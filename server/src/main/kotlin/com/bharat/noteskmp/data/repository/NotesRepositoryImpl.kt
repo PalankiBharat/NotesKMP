@@ -8,7 +8,7 @@ import com.bharat.noteskmp.utils.StringConstants.NOTES_COLLECTION_NAME
 import com.bharat.noteskmp.utils.StringConstants.USER_COLLECTION_NAME
 import com.mongodb.client.model.Filters.lt
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import data.respository.NotesRepository
+import data.respository.notes.NotesRepository
 import kotlinx.coroutines.flow.toList
 
 class NotesRepositoryImpl(

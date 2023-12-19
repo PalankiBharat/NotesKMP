@@ -9,7 +9,7 @@ import com.bharat.noteskmp.utils.commonResult
 import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
 import data.requests.AddNotesRequest
-import data.respository.NotesRepository
+import data.respository.notes.NotesRepository
 import io.ktor.http.*
 import org.bson.types.ObjectId
 
