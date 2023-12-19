@@ -1,4 +1,4 @@
-package com.bharat.noteskmp.data.request
+package data.requests
 
 import kotlinx.serialization.Serializable
 

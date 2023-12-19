@@ -1,8 +1,8 @@
-package com.bharat.noteskmp.service
+package com.bharat.noteskmp.service.notes
 
 import Note
-import com.bharat.noteskmp.data.request.AddNotesRequest
 import com.bharat.noteskmp.data.response.BasicResponseModel
+import data.requests.AddNotesRequest
 import io.ktor.http.*
 
 interface NotesService {

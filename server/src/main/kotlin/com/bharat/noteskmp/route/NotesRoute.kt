@@ -1,9 +1,9 @@
-package com.bharat.noteskmp.Route
+package com.bharat.noteskmp.route
 
 import com.bharat.noteskmp.data.repository.NotesRepositoryImpl
-import com.bharat.noteskmp.data.request.AddNotesRequest
-import com.bharat.noteskmp.service.NotesService
-import com.bharat.noteskmp.service.NotesServiceImpl
+import com.bharat.noteskmp.service.notes.NotesService
+import com.bharat.noteskmp.service.notes.NotesServiceImpl
+import data.requests.AddNotesRequest
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -12,8 +12,8 @@ import io.ktor.server.routing.*
 fun Route.notesRoute() {
     val notesService: NotesService = NotesServiceImpl(NotesRepositoryImpl())
 
-    route(RouteSegment.API_VERSION) {
-        route(RouteSegment.Notes.ROUTE) {
+    route(RouteConstants.API_VERSION) {
+        route(RouteConstants.Notes.ROUTE) {
 
             post {
                 val notesParam = call.receive<AddNotesRequest>()

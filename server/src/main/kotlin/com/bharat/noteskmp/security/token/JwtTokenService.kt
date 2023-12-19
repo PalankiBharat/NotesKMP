@@ -5,6 +5,10 @@ import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
 
 class JwtTokenService: TokenInterface {
+    private  val secret = "cXRIJ57575KKFDJFcmcm"
+    private  val issuer = "ktor.io"
+    private val algorithm = Algorithm.HMAC512(secret)
+
     override fun generate(config: TokenConfig, vararg claims: TokenClaim): String {
         var token =  JWT.create()
             .withAudience(config.audience)

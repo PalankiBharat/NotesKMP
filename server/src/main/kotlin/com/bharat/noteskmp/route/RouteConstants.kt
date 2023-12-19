@@ -1,6 +1,6 @@
-package com.bharat.noteskmp.Route
+package com.bharat.noteskmp.route
 
-internal object RouteSegment {
+internal object RouteConstants {
     /** The version segment of the API route. */
     const val API_VERSION = "v1"
 
@@ -19,12 +19,19 @@ internal object RouteSegment {
         const val ROUTE = "user"
 
         /** The path parameter name for identifying a specific employment record. */
-        const val EMPLOYMENT_ID = "employment_id"
+        const val USER_ID = "user_id"
 
         /**
          * The path template for accessing a specific employment record.
          * Incorporates the employment ID as a path parameter.
          */
-        const val EMPLOYMENT_ID_PATH = "{${EMPLOYMENT_ID}}"
+        const val USER_ID_PATH = "{${USER_ID}}"
+
+
+        object Auth {
+            const val SIGN_UP_ROUTE = "signup"
+            const val LOGIN_ROUTE = "signin"
+
+        }
     }
 }
