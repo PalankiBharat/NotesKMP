@@ -10,16 +10,16 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Route.signUp()
-{
-    val notesService: AuthService = AuthServiceImpl(AuthRepositoryImpl())
+fun Route.signUp() {
+    val notesService by inject<AuthService>()
 
-    route(API_VERSION){
-        post (SIGN_UP_ROUTE){
+    route(API_VERSION) {
+        post(SIGN_UP_ROUTE) {
             val request = call.receive<SignupRequest>()
             val response = notesService.signup(request)
-            call.respond(response.first,response.second)
+            call.respond(response.first, response.second)
         }
     }
 

@@ -60,6 +60,10 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
         }
+
+        jvmMain.dependencies {
+            implementation(libs.ktor.koin)
+        }
     }
 }
 

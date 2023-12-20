@@ -33,4 +33,6 @@ dependencies {
 
     // commons codec
     implementation(libs.commonCodec)
+
+    implementation(libs.ktor.koin)
 }

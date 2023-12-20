@@ -19,7 +19,7 @@ kotlin = "1.9.21"
 ktor = "2.3.7"
 logback = "1.4.14"
 mongo = "4.11.0"
-koin = "3.5.2"
+koin = "3.5.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -37,6 +37,9 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+
+koin_android = {module ="io.insert-koin:koin-android", version = "koin" }
+
 
 #Common Libraries
 kotlinx_serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0"}
@@ -56,6 +59,8 @@ ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor_mongo = {module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongo"}
 mongoBson = {module = "org.mongodb:bson-kotlinx", version.ref = "mongo"}
 commonCodec = {module = "commons-codec:commons-codec", version.ref = "commonCodecVersion"}
+ktor_koin = {module ="io.insert-koin:koin-ktor", version.ref = "koin" }
+
 
 # ktor Client
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }

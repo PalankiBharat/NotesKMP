@@ -15,6 +15,7 @@ val sharedModule = module {
 
 }
 
+val emptyModule = module {  }
 fun initKoin(
     appDeclaration: KoinAppDeclaration = {}
 ) =
