@@ -9,16 +9,13 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
-  //  val notesService: NotesService by inject()
-    val string by inject<String>()
-
     routing {
-       // notesRoute(notesService)
+        notesRoute()
     }
     routing {
-        route("/"){
+        route("/") {
             get {
-                call.respond(string)
+                call.respond("Hi my name is bharat and this is my kmp project")
             }
         }
     }

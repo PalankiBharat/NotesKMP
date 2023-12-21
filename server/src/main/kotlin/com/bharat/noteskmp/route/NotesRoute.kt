@@ -10,7 +10,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
-fun Route.notesRoute(notesService: NotesService) {
+fun Route.notesRoute() {
+    val notesService:NotesService by inject()
     route(RouteConstants.API_VERSION) {
         route(RouteConstants.Notes.ROUTE) {
             post {
