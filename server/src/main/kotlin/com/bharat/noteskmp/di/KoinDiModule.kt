@@ -16,26 +16,36 @@ import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import data.respository.auth.AuthRepository
 import data.respository.notes.NotesRepository
-import di.initKoin
+import io.ktor.server.application.*
+import io.ktor.server.application.*
+import org.koin.core.context.startKoin
 import org.koin.dsl.bind
 import org.koin.dsl.module
+import org.koin.ktor.plugin.*
+import org.koin.logger.slf4jLogger
 
 
-fun configureDi() {
-    initKoin {
+fun Application.configureDi() {
+
+   install(Koin) {
+        slf4jLogger()
         module {
-            single { AuthRepositoryImpl(get(), get(), get()) } bind AuthRepository::class
-            single { NotesRepositoryImpl(get(), get()) } bind NotesRepository::class
-            single { NotesServiceImpl(get()) } bind NotesService::class
-            single { AuthServiceImpl(get()) } bind AuthService::class
-            single { SHA256HashingService() } bind HashingService::class
+            single { "My Name Is Bharat" }
+        }
+        module {
             single { provideMongoDatabase() }
+            single { SHA256HashingService() } bind HashingService::class
             single { provideUserCollection(get()) }
             single { provideNotesCollection(get()) }
-
+            single { AuthRepositoryImpl(get(), get()) } bind AuthRepository::class
+            single<NotesRepository> { NotesRepositoryImpl(get()) }
+            single <NotesService> { NotesServiceImpl(get()) }
+            single { AuthServiceImpl(get()) } bind AuthService::class
         }
     }
 }
+
+
 
 fun provideMongoDatabase(): MongoDatabase {
     val uri = StringConstants.CONNECTION_STRING_URL

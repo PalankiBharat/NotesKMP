@@ -9,6 +9,8 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
+/*
+
 val sharedModule = module {
     single { NotesRepositoryImpl() } bind NotesRepository::class
     single { AuthRepositoryImpl() } bind AuthRepository::class
@@ -24,6 +26,6 @@ fun initKoin(
         modules(sharedModule)
     }
 
-fun initKoin() = initKoin() {}
 
+*/
 

@@ -1,18 +1,13 @@
 package com.bharat.noteskmp.data.repository
 
-import Note
 import com.bharat.noteskmp.data.model.UserEntity
 import com.bharat.noteskmp.security.hashing.HashingService
-import com.bharat.noteskmp.security.hashing.SHA256HashingService
-import com.bharat.noteskmp.utils.StringConstants
-import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import data.requests.SignupRequest
 import data.respository.auth.AuthRepository
 import org.bson.types.ObjectId
 
 class AuthRepositoryImpl(
-    private val notesCollection: MongoCollection<Note>,
     private val userCollection: MongoCollection<UserEntity>,
     private val hashingService: HashingService,
 ) : AuthRepository {

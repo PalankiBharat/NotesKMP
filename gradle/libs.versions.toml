@@ -38,13 +38,20 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
 
-koin_android = {module ="io.insert-koin:koin-android", version = "koin" }
 
 
 #Common Libraries
 kotlinx_serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0"}
+
+
+#Koin
+koin_android = {module ="io.insert-koin:koin-android", version = "koin" }
+ktor_koin = {module ="io.insert-koin:koin-ktor", version.ref = "koin" }
 koin_core = {module ="io.insert-koin:koin-core", version.ref = "koin" }
 koin_compose = {module ="io.insert-koin:koin-compose", version = "1.1.0" }
+koin_logger = {module ="io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+
+
 
 
 #Ktor Server Libraries
@@ -59,7 +66,6 @@ ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 ktor_mongo = {module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongo"}
 mongoBson = {module = "org.mongodb:bson-kotlinx", version.ref = "mongo"}
 commonCodec = {module = "commons-codec:commons-codec", version.ref = "commonCodecVersion"}
-ktor_koin = {module ="io.insert-koin:koin-ktor", version.ref = "koin" }
 
 
 # ktor Client

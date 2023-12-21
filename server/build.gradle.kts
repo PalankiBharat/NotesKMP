@@ -35,4 +35,7 @@ dependencies {
     implementation(libs.commonCodec)
 
     implementation(libs.ktor.koin)
+    implementation(libs.koin.core)
+    implementation(libs.koin.logger)
+
 }

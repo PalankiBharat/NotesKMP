@@ -6,6 +6,4 @@ class JVMPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = JVMPlatform()
-actual fun platformModule() = module {
-    single {  }
-}
+

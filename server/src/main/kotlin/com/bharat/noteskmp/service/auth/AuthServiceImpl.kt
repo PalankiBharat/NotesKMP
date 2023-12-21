@@ -10,10 +10,11 @@ import com.bharat.noteskmp.utils.okResult
 import data.requests.SignupRequest
 import data.respository.auth.AuthRepository
 import io.ktor.http.*
+import org.koin.core.component.KoinComponent
 
 class AuthServiceImpl(
     val authRepository: AuthRepository
-) : AuthService {
+) : AuthService ,KoinComponent{
     override suspend fun signup(signupRequest: SignupRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
         return try {
             val isSignedUpSuccessful = authRepository.signUpUser(
