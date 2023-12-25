@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import java.util.*
 
-class JwtTokenService: TokenInterface {
+class JwtTokenService: TokenService {
     private  val secret = "cXRIJ57575KKFDJFcmcm"
     private  val issuer = "ktor.io"
     private val algorithm = Algorithm.HMAC512(secret)

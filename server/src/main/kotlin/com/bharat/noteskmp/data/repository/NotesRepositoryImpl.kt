@@ -3,7 +3,6 @@ package com.bharat.noteskmp.data.repository
 import Note
 import com.mongodb.client.model.Filters.lt
 import com.mongodb.kotlin.client.coroutine.MongoCollection
-import data.respository.notes.NotesRepository
 import kotlinx.coroutines.flow.toList
 
 class NotesRepositoryImpl(

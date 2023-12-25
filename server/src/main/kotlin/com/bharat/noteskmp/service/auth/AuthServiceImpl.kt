@@ -1,37 +1,72 @@
 package com.bharat.noteskmp.service.auth
 
-import Note
+import com.bharat.noteskmp.data.repository.AuthRepository
 import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.response.failureResponse
 import com.bharat.noteskmp.data.response.successResponse
+import com.bharat.noteskmp.route.RouteConstants.User.USER_ID
+import com.bharat.noteskmp.security.token.TokenClaim
+import com.bharat.noteskmp.security.token.TokenConfig
+import com.bharat.noteskmp.security.token.TokenService
 import com.bharat.noteskmp.utils.StringConstants
+import com.bharat.noteskmp.utils.commonResult
 import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
+import data.requests.LoginRequest
 import data.requests.SignupRequest
-import data.respository.auth.AuthRepository
+import data.response.LoginResponse
 import io.ktor.http.*
 import org.koin.core.component.KoinComponent
 
 class AuthServiceImpl(
-    val authRepository: AuthRepository
-) : AuthService ,KoinComponent{
+    val authRepository: AuthRepository,
+    val tokenService: TokenService,
+) : AuthService, KoinComponent {
     override suspend fun signup(signupRequest: SignupRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
         return try {
-            val isSignedUpSuccessful = authRepository.signUpUser(
-                signupRequest
-            )
-            if (!isSignedUpSuccessful) {
-                okResult(failureResponse(StringConstants.BASIC_ERROR_MESSAGE))
+            val isUserExist = authRepository.findUserOrNull(signupRequest.email) != null
+            if (isUserExist) {
+                okResult(failureResponse("User Already Exists. Login to Continue"))
             } else {
-                okResult(successResponse(data = null, message = "Signed Up Successfully"))
+                val isSignedUpSuccessful = authRepository.signUpUser(
+                    signupRequest
+                )
+                if (!isSignedUpSuccessful) {
+                    okResult(failureResponse(StringConstants.BASIC_ERROR_MESSAGE))
+                } else {
+                    okResult(successResponse(data = null, message = "Signed Up Successfully"))
+                }
             }
         } catch (e: Exception) {
             internalServerErrorResult()
         }
     }
 
-    override suspend fun login(userId: String): Pair<HttpStatusCode, BasicResponseModel<List<Note>>> {
-        TODO("Not yet implemented")
+    override suspend fun login(
+        loginRequest: LoginRequest,
+        tokenConfig: TokenConfig
+    ): Pair<HttpStatusCode, BasicResponseModel<LoginResponse>> {
+        return try {
+            val user = authRepository.findUserOrNull(loginRequest.email)
+            val isUserExist = user != null
+            if (isUserExist) {
+                val canLogin = authRepository.loginUser(loginRequest)
+                val token =
+                    tokenService.generate(config = tokenConfig, TokenClaim(name = USER_ID, value = user?.id.toString()))
+                if (canLogin) {
+                    okResult(successResponse(data = LoginResponse(token = token), message = "Signed Up Successfully"))
+                } else {
+                    okResult(failureResponse(StringConstants.BASIC_ERROR_MESSAGE))
+                }
+            } else {
+                commonResult(
+                    HttpStatusCode.Conflict,
+                    failureResponse("User does not exist. Please continue with Signup")
+                )
+            }
+        } catch (e: Exception) {
+            internalServerErrorResult()
+        }
     }
 
 

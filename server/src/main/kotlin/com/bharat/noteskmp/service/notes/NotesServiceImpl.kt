@@ -1,6 +1,7 @@
 package com.bharat.noteskmp.service.notes
 
 import Note
+import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.response.failureResponse
 import com.bharat.noteskmp.data.response.successResponse
@@ -9,7 +10,6 @@ import com.bharat.noteskmp.utils.commonResult
 import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
 import data.requests.AddNotesRequest
-import data.respository.notes.NotesRepository
 import io.ktor.http.*
 import org.bson.types.ObjectId
 

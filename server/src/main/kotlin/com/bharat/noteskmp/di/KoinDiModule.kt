@@ -2,10 +2,14 @@ package com.bharat.noteskmp.di
 
 import Note
 import com.bharat.noteskmp.data.model.UserEntity
+import com.bharat.noteskmp.data.repository.AuthRepository
 import com.bharat.noteskmp.data.repository.AuthRepositoryImpl
+import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.repository.NotesRepositoryImpl
 import com.bharat.noteskmp.security.hashing.HashingService
 import com.bharat.noteskmp.security.hashing.SHA256HashingService
+import com.bharat.noteskmp.security.token.JwtTokenService
+import com.bharat.noteskmp.security.token.TokenService
 import com.bharat.noteskmp.service.auth.AuthService
 import com.bharat.noteskmp.service.auth.AuthServiceImpl
 import com.bharat.noteskmp.service.notes.NotesService
@@ -14,8 +18,6 @@ import com.bharat.noteskmp.utils.StringConstants
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import data.respository.auth.AuthRepository
-import data.respository.notes.NotesRepository
 import di.initKoin
 import io.ktor.server.application.*
 import org.koin.dsl.bind
@@ -43,6 +45,7 @@ fun mongoModule() = module {
 
 fun miscModule() = module {
     single { SHA256HashingService() } bind HashingService::class
+    single { JwtTokenService() } bind TokenService::class
 }
 
 fun repositoryModule() = module {
@@ -52,7 +55,7 @@ fun repositoryModule() = module {
 
 fun serviceModule() = module {
     single { NotesServiceImpl(get()) } bind NotesService::class
-    single { AuthServiceImpl(get()) } bind AuthService::class
+    single { AuthServiceImpl(get(), get()) } bind AuthService::class
 }
 
 fun provideMongoDatabase(): MongoDatabase {

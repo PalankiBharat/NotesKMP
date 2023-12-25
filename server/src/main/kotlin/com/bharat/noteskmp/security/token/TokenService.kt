@@ -1,6 +1,6 @@
 package com.bharat.noteskmp.security.token
 
-interface TokenInterface {
+interface TokenService {
     fun generate(
         config: TokenConfig,
         vararg claims: TokenClaim

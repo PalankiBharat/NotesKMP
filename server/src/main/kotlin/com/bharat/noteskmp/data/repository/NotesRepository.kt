@@ -1,4 +1,4 @@
-package data.respository.notes
+package com.bharat.noteskmp.data.repository
 
 import Note
 

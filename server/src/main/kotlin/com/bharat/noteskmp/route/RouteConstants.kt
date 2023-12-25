@@ -26,12 +26,11 @@ internal object RouteConstants {
          * Incorporates the employment ID as a path parameter.
          */
         const val USER_ID_PATH = "{${USER_ID}}"
+    }
 
+    object Auth {
+        const val SIGN_UP_ROUTE = "signup"
+        const val LOGIN_ROUTE = "signin"
 
-        object Auth {
-            const val SIGN_UP_ROUTE = "signup"
-            const val LOGIN_ROUTE = "signin"
-
-        }
     }
 }
