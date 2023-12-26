@@ -14,13 +14,13 @@ import org.bson.types.ObjectId
 class NotesServiceImpl(
     val notesRepository: NotesRepository
 ) : NotesService {
-    override suspend fun addNote(note: AddNotesRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
+    override suspend fun addNote(note: AddNotesRequest, userId: String): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
        return safeServerCall {
             val isNotesAdded = notesRepository.addNote(
                 Note(
                     id = ObjectId().toHexString(),
                     title = note.title,
-                    userId = note.userId,
+                    userId = userId,
                     description = note.description,
                     dateCreated = System.currentTimeMillis(),
                     dateUpdated = 0L,

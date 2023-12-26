@@ -6,5 +6,4 @@ import kotlinx.serialization.Serializable
 data class AddNotesRequest(
     val title :String,
     val description: String,
-    val userId:String,
 )

@@ -46,6 +46,5 @@ class AuthRepositoryImpl(
 
     override suspend fun findUserOrNull(email: String): UserEntity? {
         return userCollection.withDocumentClass<UserEntity>().find(eq("email", email)).toList().getOrNull(0)
-
     }
 }

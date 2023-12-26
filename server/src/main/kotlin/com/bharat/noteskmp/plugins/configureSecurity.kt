@@ -8,7 +8,6 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 
 fun Application.configureSecurity(tokenConfig: TokenConfig) {
-    val jwtAudience = "jwt-audience"
     val jwtRealm = "ktor sample app"
     authentication {
         jwt {
@@ -21,7 +20,7 @@ fun Application.configureSecurity(tokenConfig: TokenConfig) {
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
+                if (credential.payload.audience.contains(tokenConfig.audience)) JWTPrincipal(credential.payload) else null
             }
         }
     }
