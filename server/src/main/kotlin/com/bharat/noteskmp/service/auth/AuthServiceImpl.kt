@@ -19,8 +19,8 @@ import io.ktor.http.*
 import org.koin.core.component.KoinComponent
 
 class AuthServiceImpl(
-    val authRepository: AuthRepository,
-    val tokenService: TokenService,
+    private val authRepository: AuthRepository,
+    private val tokenService: TokenService,
 ) : AuthService, KoinComponent {
     override suspend fun signup(signupRequest: SignupRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
         return try {
@@ -59,10 +59,7 @@ class AuthServiceImpl(
                     okResult(failureResponse(StringConstants.BASIC_ERROR_MESSAGE))
                 }
             } else {
-                commonResult(
-                    HttpStatusCode.Conflict,
-                    failureResponse("User does not exist. Please continue with Signup")
-                )
+                commonResult(HttpStatusCode.Conflict, failureResponse("User does not exist. Please continue with Signup"))
             }
         } catch (e: Exception) {
             internalServerErrorResult()

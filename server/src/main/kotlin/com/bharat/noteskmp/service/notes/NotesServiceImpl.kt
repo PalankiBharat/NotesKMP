@@ -5,10 +5,7 @@ import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.response.failureResponse
 import com.bharat.noteskmp.data.response.successResponse
-import com.bharat.noteskmp.utils.StringConstants
-import com.bharat.noteskmp.utils.commonResult
-import com.bharat.noteskmp.utils.internalServerErrorResult
-import com.bharat.noteskmp.utils.okResult
+import com.bharat.noteskmp.utils.*
 import data.requests.AddNotesRequest
 import io.ktor.http.*
 import org.bson.types.ObjectId
@@ -18,7 +15,7 @@ class NotesServiceImpl(
     val notesRepository: NotesRepository
 ) : NotesService {
     override suspend fun addNote(note: AddNotesRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
-        return try {
+       return safeServerCall {
             val isNotesAdded = notesRepository.addNote(
                 Note(
                     id = ObjectId().toHexString(),
@@ -34,8 +31,6 @@ class NotesServiceImpl(
             } else {
                 okResult(successResponse(data = null, message = "Note Added Successfully"))
             }
-        } catch (e: Exception) {
-            internalServerErrorResult()
         }
     }
 

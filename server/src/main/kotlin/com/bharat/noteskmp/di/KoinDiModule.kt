@@ -15,15 +15,17 @@ import com.bharat.noteskmp.service.auth.AuthServiceImpl
 import com.bharat.noteskmp.service.notes.NotesService
 import com.bharat.noteskmp.service.notes.NotesServiceImpl
 import com.bharat.noteskmp.utils.StringConstants
+import com.bharat.noteskmp.utils.StringConstants.NOTES_COLLECTION_NAME
+import com.bharat.noteskmp.utils.StringConstants.USER_COLLECTION_NAME
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import di.initKoin
-import io.ktor.server.application.*
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-fun Application.configureDi() {
+fun configureDi() {
     initKoin {
         modules(
             listOf(
@@ -39,8 +41,8 @@ fun Application.configureDi() {
 fun mongoModule() = module {
     single { provideMongoDatabase() }
     single { SHA256HashingService() } bind HashingService::class
-    single { provideUserCollection(get()) }
-    single { provideNotesCollection(get()) }
+    single(named(USER_COLLECTION_NAME)) { provideUserCollection(get()) }
+    single(named(NOTES_COLLECTION_NAME)) { provideNotesCollection(get()) }
 }
 
 fun miscModule() = module {
@@ -49,8 +51,8 @@ fun miscModule() = module {
 }
 
 fun repositoryModule() = module {
-    single { AuthRepositoryImpl(get(), get()) } bind AuthRepository::class
-    single { NotesRepositoryImpl(get()) } bind NotesRepository::class
+    single { AuthRepositoryImpl(get(named(USER_COLLECTION_NAME)), get()) } bind AuthRepository::class
+    single { NotesRepositoryImpl(get(named(NOTES_COLLECTION_NAME))) } bind NotesRepository::class
 }
 
 fun serviceModule() = module {
@@ -64,9 +66,9 @@ fun provideMongoDatabase(): MongoDatabase {
 }
 
 fun provideUserCollection(database: MongoDatabase): MongoCollection<UserEntity> {
-    return database.getCollection<UserEntity>(StringConstants.USER_COLLECTION_NAME)
+    return database.getCollection<UserEntity>(USER_COLLECTION_NAME)
 }
 
 fun provideNotesCollection(database: MongoDatabase): MongoCollection<Note> {
-    return database.getCollection<Note>(StringConstants.NOTES_COLLECTION_NAME)
+    return database.getCollection<Note>(NOTES_COLLECTION_NAME)
 }

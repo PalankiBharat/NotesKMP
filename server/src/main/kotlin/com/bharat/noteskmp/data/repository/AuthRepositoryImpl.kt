@@ -1,9 +1,10 @@
 package com.bharat.noteskmp.data.repository
 
 import com.bharat.noteskmp.data.model.UserEntity
+import com.bharat.noteskmp.route.RouteConstants
 import com.bharat.noteskmp.security.hashing.HashingService
 import com.bharat.noteskmp.security.hashing.SaltHash
-import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Filters.*
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import data.requests.LoginRequest
 import data.requests.SignupRequest
@@ -15,6 +16,7 @@ class AuthRepositoryImpl(
     private val hashingService: HashingService,
 ) : AuthRepository {
     override suspend fun signUpUser(signupRequest: SignupRequest): Boolean {
+        userCollection
         val saltedHash = hashingService.generateSaltedHash(signupRequest.password, 16)
         val user = UserEntity(
             id = ObjectId().toHexString(),
@@ -35,7 +37,7 @@ class AuthRepositoryImpl(
                     salt = user.salt
                 )
             )
-            if (!isPasswordValid) {
+            if (isPasswordValid) {
                 canUserLogin = true
             }
         }
@@ -43,7 +45,7 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun findUserOrNull(email: String): UserEntity? {
-        return userCollection.find(Filters.lt(UserEntity::email.name, email)).toList().getOrNull(0)
+        return userCollection.withDocumentClass<UserEntity>().find(eq("email", email)).toList().getOrNull(0)
 
     }
 }
