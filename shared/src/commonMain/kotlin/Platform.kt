@@ -5,4 +5,3 @@ interface Platform {
 }
 
 expect fun getPlatform(): Platform
-

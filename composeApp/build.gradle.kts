@@ -43,17 +43,22 @@ kotlin {
             implementation(compose.material)
             implementation(compose.ui)
             implementation(libs.ktor.client.core)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.ktor.client.darwin)
         }
 
         jvmMain.dependencies {
-            implementation(libs.ktor.koin)
+          //  implementation(libs.ktor.koin)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

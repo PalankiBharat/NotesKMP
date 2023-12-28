@@ -5,8 +5,8 @@ import androidx.compose.ui.window.application
 import di.initKoin
 
 fun main() = application {
+    initKoin {  }
     Window(onCloseRequest = ::exitApplication, title = "Notes App KMP") {
-        initKoin {  }
         App()
     }
 }

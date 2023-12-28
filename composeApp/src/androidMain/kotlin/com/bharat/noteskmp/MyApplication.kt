@@ -5,9 +5,9 @@ import di.initKoin
 
 class MyApplication: Application() {
     override fun onCreate() {
-        super.onCreate()
         initKoin {
 
         }
+        super.onCreate()
     }
 }
