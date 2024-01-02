@@ -7,6 +7,6 @@ import data.requests.SignupRequest
 import data.response.LoginResponse
 
 interface AuthRepository {
-    suspend fun login(loginRequest: LoginRequest): ApiResult<LoginResponse>
-    suspend fun signUp(signupRequest: SignupRequest): ApiResult<Nothing>
+    suspend fun login(loginRequest: LoginRequest): ApiResult<LoginResponse?>
+    suspend fun signUp(signupRequest: SignupRequest): ApiResult<String?>
 }

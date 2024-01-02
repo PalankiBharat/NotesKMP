@@ -54,7 +54,7 @@ kotlin {
         }
 
         jvmMain.dependencies {
-          //  implementation(libs.ktor.koin)
+            implementation(libs.ktor.client.okhttp)
         }
 
         iosMain.dependencies {

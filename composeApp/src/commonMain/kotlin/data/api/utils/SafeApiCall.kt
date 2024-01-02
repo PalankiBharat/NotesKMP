@@ -15,14 +15,18 @@ suspend fun <T> safeApiCall(
     return withContext(dispatcher) {
         try {
             val response = apiCall.invoke()
-            if (response.status=="Success"){
-
-            }else{
-
+            if (response.status == "Success" && response.data != null) {
+                if (response.data != null) {
+                    ApiResult.Success(data = response.data)
+                } else {
+                    ApiResult.GenericError(errorMessage = "No Data Found")
+                }
+            } else {
+                ApiResult.GenericError(errorMessage = response.message)
             }
-            ApiResult.Success(response.data,response.message)
+            ApiResult.Success(response.data)
         } catch (throwable: Throwable) {
-           // printLogD(TAG, "Exception: $throwable")
+            // printLogD(TAG, "Exception: $throwable")
             when (throwable) {
                 is ClientRequestException -> convertErrorBody(throwable)
                 is ServerResponseException -> convertErrorBody(throwable)

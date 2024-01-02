@@ -7,18 +7,19 @@ import data.requests.LoginRequest
 import data.requests.SignupRequest
 import data.response.LoginResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 
 class AuthRepositoryImpl(val authApiService: AuthApiService) : AuthRepository {
-    override suspend fun login(loginRequest: LoginRequest): ApiResult<LoginResponse> {
-        safeApiCall(Dispatchers.IO)
+    override suspend fun login(loginRequest: LoginRequest): ApiResult<LoginResponse?> {
+      return  safeApiCall(Dispatchers.Default)
         {
-            authApiService.login()
+            authApiService.login(loginRequest)
         }
 
     }
 
-    override suspend fun signUp(signupRequest: SignupRequest): ApiResult<Nothing> {
-        TODO("Not yet implemented")
+    override suspend fun signUp(signupRequest: SignupRequest): ApiResult<String?> {
+        return safeApiCall(Dispatchers.Default){
+            authApiService.signUp(signupRequest)
+        }
     }
 }

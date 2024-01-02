@@ -5,6 +5,6 @@ import androidx.compose.runtime.Composable
 @Composable
 fun App() {
     MaterialTheme {
-        Text(getPlatform().name)
+
     }
 }

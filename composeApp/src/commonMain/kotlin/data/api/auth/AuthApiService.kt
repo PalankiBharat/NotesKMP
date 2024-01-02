@@ -7,6 +7,5 @@ import data.response.LoginResponse
 
 interface AuthApiService {
     suspend fun login(loginRequest: LoginRequest):BasicResponseModel<LoginResponse>
-
     suspend fun signUp(signupRequest: SignupRequest):BasicResponseModel<String>
 }
