@@ -44,9 +44,7 @@ kotlin {
 
         }
         commonMain.dependencies {
-
             api(libs.kmm.viewmodel.core)
-
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -54,7 +52,6 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.logging)
             implementation(libs.ktor.serialization.kotlinx)
-            implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.ktor.client.content.negotiation)
             @OptIn(ExperimentalComposeLibrary::class)

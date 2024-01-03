@@ -17,11 +17,10 @@ expect fun platformModule():Module
 
 fun initKoin(
     appDeclaration: KoinAppDeclaration = {}
-) =
-    startKoin {
+) = startKoin {
         appDeclaration()
         modules(sharedModule)
-        platformModule()
+       // platformModule()
     }
 
 
