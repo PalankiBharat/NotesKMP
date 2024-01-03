@@ -1,3 +1,6 @@
+package presentation.Auth
+
+import KMPToast
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -5,7 +8,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,8 +27,8 @@ import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,32 +40,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import org.koin.compose.koinInject
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun LoginSignupScreen(viewModel: AuthViewModel) {
-
+fun LoginSignupScreen() {
+    val viewModel = koinInject<AuthViewModel>()
     val viewStates = viewModel.viewStates.collectAsState()
     var selectedForm by remember {
         mutableStateOf(FormType.LOGIN)
     }
+    LaunchedEffect(viewStates){
+        KMPToast().showToast("Bharat")
+        viewStates.value.error?.let { KMPToast().showToast(it) }
+    }
 
-    var selectedTabIndex by remember {
+
+    val (selectedTabIndex, onSelectedTabchange) = remember {
         mutableStateOf(0)
+    }
+
+    LaunchedEffect(selectedTabIndex) {
+        when (selectedTabIndex) {
+            1 -> {
+                selectedForm = FormType.SIGNUP
+            }
+
+            0 -> {
+                selectedForm = FormType.LOGIN
+            }
+        }
+    }
+    val noInteractionSource = remember {
+        MutableInteractionSource()
     }
 
     val pagerState = rememberPagerState(
         initialPage = 0,
-        initialPageOffsetFraction = 0f
-    ) { 2 }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(Modifier.fillMaxWidth(0.9f)) {
-            Card(modifier = Modifier.fillMaxSize(), elevation = 10.dp) {
+        initialPageOffsetFraction = 0f,
+        pageCount = { 2 }
+    )
+    Box(Modifier.fillMaxWidth()) {
+        Card(modifier = Modifier.fillMaxSize().align(Alignment.TopCenter), elevation = 10.dp) {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     TabRow(
                         indicator = @Composable {
@@ -75,10 +96,12 @@ fun LoginSignupScreen(viewModel: AuthViewModel) {
                         selectedTabIndex = selectedTabIndex
                     ) {
                         val isLoginTabSelected = selectedForm == FormType.LOGIN
-                        Tab(selected = isLoginTabSelected, onClick = {
-                            selectedTabIndex = 0
-                            selectedForm = FormType.LOGIN
-                        }) {
+                        Tab(
+                            modifier = Modifier,
+                            selected = isLoginTabSelected,
+                            onClick = {
+                                onSelectedTabchange(0)
+                            }) {
                             Text(
                                 text = "Login",
                                 fontSize = 18.sp,
@@ -87,10 +110,12 @@ fun LoginSignupScreen(viewModel: AuthViewModel) {
                             )
                         }
 
-                        Tab(selected = !isLoginTabSelected, onClick = {
-                            selectedTabIndex = 1
-                            selectedForm = FormType.SIGNUP
-                        }) {
+                        Tab(
+                            selected = !isLoginTabSelected,
+                            onClick = {
+                                onSelectedTabchange(1)
+                            }
+                        ) {
                             Text(
                                 text = "Signup",
                                 fontSize = 18.sp,
@@ -100,33 +125,26 @@ fun LoginSignupScreen(viewModel: AuthViewModel) {
                         }
                     }
                 }
-
-                HorizontalPager(state = pagerState) {
-                    for (i in 0 until 2) {
-                        if (i == 0) {
+                HorizontalPager(state = pagerState) { page ->
+                    when (page) {
+                        0 -> {
                             LoginPage(viewStates.value, viewModel::setStateEvents)
+                        }
+                        1 -> {
+                            Box(modifier = Modifier.fillMaxWidth().background(Color.Green)) {
+                                Text("Bharat")
+                            }
                         }
                     }
                 }
             }
         }
+
     }
 }
 
-@Composable
-fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents) -> Unit) {
-    Column {
-        TextField(value = loginViewStates.loginEmail ?: "", onValueChange = {
-            setStateEvents(
-                AuthStateEvents.UpdateViewStates(
-                    authViewStates = AuthViewStates(
-                        loginEmail = it
-                    )
-                )
-            )
-        })
-    }
-}
+
+
 
 
 enum class FormType {
