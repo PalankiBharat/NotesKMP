@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -26,6 +27,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import org.koin.compose.koinInject
+import theme.darkColorBackground
+import theme.themeYellow
+import theme.unHighlightedTextColor
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -51,8 +56,7 @@ fun LoginSignupScreen() {
     var selectedForm by remember {
         mutableStateOf(FormType.LOGIN)
     }
-    LaunchedEffect(viewStates){
-        KMPToast().showToast("Bharat")
+    LaunchedEffect(viewStates) {
         viewStates.value.error?.let { KMPToast().showToast(it) }
     }
 
@@ -81,13 +85,28 @@ fun LoginSignupScreen() {
         initialPageOffsetFraction = 0f,
         pageCount = { 2 }
     )
-    Box(Modifier.fillMaxWidth()) {
-        Card(modifier = Modifier.fillMaxSize().align(Alignment.TopCenter), elevation = 10.dp) {
-            Column {
+    Box(
+        Modifier.fillMaxWidth()
+    ) {
+        Card(
+            modifier = Modifier.fillMaxSize()
+                .background(color = darkColorBackground)
+                .align(Alignment.TopCenter), elevation = 10.dp
+        ) {
+            Column(
+                modifier = Modifier.background(color = darkColorBackground)
+            ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     TabRow(
                         indicator = @Composable {
-                            CustomIndicator(tabPositions = it, selectedTabIndex = selectedTabIndex)
+                            Box(
+                                modifier = Modifier
+                                    .tabIndicatorOffset(it[selectedTabIndex])
+                                    .height(4.dp)
+                                    .padding(horizontal = 40.dp)
+                                    .background(color = themeYellow, shape = RoundedCornerShape(8.dp))
+                            )
+                         //   CustomIndicator(tabPositions = it, selectedTabIndex = selectedTabIndex)
                         },
                         divider = @Composable {
                             Spacer(Modifier.weight(1f))
@@ -106,7 +125,7 @@ fun LoginSignupScreen() {
                                 text = "Login",
                                 fontSize = 18.sp,
                                 modifier = Modifier.padding(10.dp),
-                                color = if (isLoginTabSelected) Color.Red else Color.Black
+                                color = if (isLoginTabSelected) themeYellow else unHighlightedTextColor
                             )
                         }
 
@@ -120,7 +139,7 @@ fun LoginSignupScreen() {
                                 text = "Signup",
                                 fontSize = 18.sp,
                                 modifier = Modifier.padding(10.dp),
-                                color = if (!isLoginTabSelected) Color.Red else Color.Black
+                                color = if (!isLoginTabSelected) themeYellow else unHighlightedTextColor
                             )
                         }
                     }
@@ -130,6 +149,7 @@ fun LoginSignupScreen() {
                         0 -> {
                             LoginPage(viewStates.value, viewModel::setStateEvents)
                         }
+
                         1 -> {
                             Box(modifier = Modifier.fillMaxWidth().background(Color.Green)) {
                                 Text("Bharat")
@@ -142,9 +162,6 @@ fun LoginSignupScreen() {
 
     }
 }
-
-
-
 
 
 enum class FormType {
