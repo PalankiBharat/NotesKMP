@@ -56,7 +56,10 @@ class AuthViewModel(val repository: AuthRepository) : KMMViewModel() {
                 loginEmail = newStates.loginEmail ?: this.loginEmail,
                 loginPassword = newStates.loginPassword ?: this.loginPassword,
                 signupEmail = newStates.signupEmail ?: this.signupEmail,
+                signupName = newStates.signupName ?: this.signupName,
                 signupPassword = newStates.signupPassword ?: this.signupPassword,
+                loginResponseToken = newStates.loginResponseToken ?: this.loginResponseToken,
+                error = newStates.error ?: this.error,
             )
             _viewStates.value = newState
         }
@@ -72,6 +75,7 @@ data class AuthViewStates(
     val loginEmail: String? = null,
     val loginPassword: String? = null,
     val signupEmail: String? = null,
+    val signupName: String? = null,
     val signupPassword: String? = null,
     val loginResponseToken: String? = null,
     val error: String? = null

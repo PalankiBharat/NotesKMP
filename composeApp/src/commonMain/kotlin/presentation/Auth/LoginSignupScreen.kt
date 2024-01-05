@@ -65,6 +65,12 @@ fun LoginSignupScreen() {
         mutableStateOf(0)
     }
 
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f,
+        pageCount = { 2 }
+    )
+
     LaunchedEffect(selectedTabIndex) {
         when (selectedTabIndex) {
             1 -> {
@@ -75,16 +81,13 @@ fun LoginSignupScreen() {
                 selectedForm = FormType.LOGIN
             }
         }
+        pagerState.animateScrollToPage(selectedTabIndex)
     }
     val noInteractionSource = remember {
         MutableInteractionSource()
     }
 
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        initialPageOffsetFraction = 0f,
-        pageCount = { 2 }
-    )
+
     Box(
         Modifier.fillMaxWidth()
     ) {
@@ -104,9 +107,12 @@ fun LoginSignupScreen() {
                                     .tabIndicatorOffset(it[selectedTabIndex])
                                     .height(4.dp)
                                     .padding(horizontal = 40.dp)
-                                    .background(color = themeYellow, shape = RoundedCornerShape(8.dp))
+                                    .background(
+                                        color = themeYellow,
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
                             )
-                         //   CustomIndicator(tabPositions = it, selectedTabIndex = selectedTabIndex)
+                            //   CustomIndicator(tabPositions = it, selectedTabIndex = selectedTabIndex)
                         },
                         divider = @Composable {
                             Spacer(Modifier.weight(1f))
@@ -144,16 +150,19 @@ fun LoginSignupScreen() {
                         }
                     }
                 }
-                HorizontalPager(state = pagerState) { page ->
+                HorizontalPager(
+                    state = pagerState,
+                    userScrollEnabled = false,
+                    beyondBoundsPageCount = 0,
+                    verticalAlignment = Alignment.Top
+                ) { page ->
                     when (page) {
                         0 -> {
                             LoginPage(viewStates.value, viewModel::setStateEvents)
                         }
 
                         1 -> {
-                            Box(modifier = Modifier.fillMaxWidth().background(Color.Green)) {
-                                Text("Bharat")
-                            }
+                            SignUpPage(viewStates.value, viewModel::setStateEvents)
                         }
                     }
                 }

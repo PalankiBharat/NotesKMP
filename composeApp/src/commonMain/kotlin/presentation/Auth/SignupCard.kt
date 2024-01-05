@@ -30,7 +30,7 @@ import theme.themeYellow
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents) -> Unit) {
+fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents) -> Unit) {
     val (isPasswordVisible, onVisiblityChange) = remember { mutableStateOf(false) }
     Box(modifier = Modifier.fillMaxWidth().padding(top = 50.dp)) {
         Card(
@@ -44,12 +44,30 @@ fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents)
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Go Get Your Notes",
+                    "Start Using Notsy",
                     color = themeYellow,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    label = {
+                        Text("Enter your Name")
+                    },
+                    value = loginViewStates.loginEmail ?: "",
+                    onValueChange = {
+                        setStateEvents(
+                            AuthStateEvents.UpdateViewStates(
+                                authViewStates = AuthViewStates(
+                                    loginEmail = it
+                                )
+                            )
+                        )
+                    }
+                )
+
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.9f),
                     label = {
@@ -95,7 +113,6 @@ fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents)
 
                 Text(
                     text = "Forgot Password ?",
-                    color = themeYellow,
                     modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 10.dp),
                     textAlign = TextAlign.End
                 )
