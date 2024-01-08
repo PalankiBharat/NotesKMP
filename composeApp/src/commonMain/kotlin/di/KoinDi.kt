@@ -14,10 +14,10 @@ import presentation.Auth.AuthViewModel
 
 
 val composeAppModule = module {
+    single { PreferenceManager(getSettings()) }
     single { AuthServiceImpl(httpClient) } bind AuthApiService::class
     single { AuthRepositoryImpl(get()) } bind AuthRepository::class
-    single { AuthViewModel(get()) }
-    single { PreferenceManager(getSettings()) }
+    single { AuthViewModel(get(),get()) }
     // single { AuthRepositoryImpl() } bind AuthRepository::class
 }
 

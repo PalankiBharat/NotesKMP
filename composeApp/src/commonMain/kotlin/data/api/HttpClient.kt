@@ -1,16 +1,16 @@
 package data.api
 
-import io.ktor.client.*
-import io.ktor.client.plugins.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
 
-const val BASE_URL: String = ""
+
+const val BASE_URL: String = "http://10.0.2.2:8081/v1/"
 
 val httpClient = HttpClient {
     expectSuccess = true
@@ -25,10 +25,6 @@ val httpClient = HttpClient {
         level = LogLevel.HEADERS
     }
     install(ContentNegotiation) {
-        json(Json {
-            ignoreUnknownKeys = true
-            isLenient = true
-            useArrayPolymorphism = true
-        })
+        json()
     }
 }

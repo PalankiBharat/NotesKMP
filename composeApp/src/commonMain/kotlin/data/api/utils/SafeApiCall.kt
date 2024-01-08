@@ -26,13 +26,16 @@ suspend fun <T> safeApiCall(
             }
             ApiResult.Success(response.data)
         } catch (throwable: Throwable) {
-            // printLogD(TAG, "Exception: $throwable")
+            throwable.message
             when (throwable) {
                 is ClientRequestException -> convertErrorBody(throwable)
                 is ServerResponseException -> convertErrorBody(throwable)
                 is TimeoutCancellationException -> ApiResult.GenericError(errorMessage = AppErrorCodes.NETWORK_ERROR_TIMEOUT)
                 is IOException -> ApiResult.NetworkError
-                else -> ApiResult.GenericError(errorMessage = AppErrorCodes.SOMETHING_WENT_WRONG)
+                else -> {
+                    throwable.message
+                    ApiResult.GenericError(errorMessage = AppErrorCodes.SOMETHING_WENT_WRONG)
+                }
             }
         }
     }

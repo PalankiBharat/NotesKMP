@@ -3,13 +3,15 @@ package presentation.Auth
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import data.api.utils.ApiResult
+import data.preferance.PreferenceManager
 import data.repo.auth.AuthRepository
 import data.requests.LoginRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AuthViewModel(val repository: AuthRepository) : KMMViewModel() {
+class AuthViewModel(val repository: AuthRepository, val preferenceManager: PreferenceManager) :
+    KMMViewModel() {
 
     private val _viewStates = MutableStateFlow(AuthViewStates())
     val viewStates = _viewStates.asStateFlow()
@@ -32,17 +34,17 @@ class AuthViewModel(val repository: AuthRepository) : KMMViewModel() {
                 val response = repository.login(LoginRequest(loginEmail ?: "", loginPassword ?: ""))
                 when (response) {
                     is ApiResult.GenericError -> {
-
-                        _viewStates.value = _viewStates.value.copy(error = response.errorMessage)
+                       updateState(AuthViewStates(error = response.errorMessage))
                     }
 
                     ApiResult.NetworkError -> {
-                        updateState(AuthViewStates(error = error))
+                        updateState(AuthViewStates(error = "No Internet"))
                     }
 
                     is ApiResult.Success -> {
                         val data = response.data
                         updateState(AuthViewStates(loginResponseToken = data?.token))
+                        preferenceManager.saveToken(data?.token ?: "")
                     }
                 }
             }

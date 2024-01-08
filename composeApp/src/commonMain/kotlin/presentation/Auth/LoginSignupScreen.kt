@@ -54,7 +54,7 @@ fun LoginSignupScreen() {
     var selectedForm by remember {
         mutableStateOf(FormType.LOGIN)
     }
-    LaunchedEffect(viewStates) {
+    LaunchedEffect(viewStates.value) {
         viewStates.value.error?.let { KMPToast().showToast(it) }
     }
 
