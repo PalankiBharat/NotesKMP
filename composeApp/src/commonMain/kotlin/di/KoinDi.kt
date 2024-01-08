@@ -3,8 +3,10 @@ package di
 import data.api.auth.AuthApiService
 import data.api.auth.AuthServiceImpl
 import data.api.httpClient
+import data.preferance.PreferenceManager
 import data.repo.auth.AuthRepository
 import data.repo.auth.AuthRepositoryImpl
+import expect_actuals.getSettings
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -15,6 +17,7 @@ val composeAppModule = module {
     single { AuthServiceImpl(httpClient) } bind AuthApiService::class
     single { AuthRepositoryImpl(get()) } bind AuthRepository::class
     single { AuthViewModel(get()) }
+    single { PreferenceManager(getSettings()) }
     // single { AuthRepositoryImpl() } bind AuthRepository::class
 }
 

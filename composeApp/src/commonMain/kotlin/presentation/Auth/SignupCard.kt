@@ -1,7 +1,9 @@
 package presentation.Auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,17 +34,25 @@ import theme.themeYellow
 @Composable
 fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents) -> Unit) {
     val (isPasswordVisible, onVisiblityChange) = remember { mutableStateOf(false) }
-    Box(modifier = Modifier.fillMaxWidth().padding(top = 50.dp)) {
+    Box(modifier = Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier.fillMaxWidth(0.9f)
                 .align(Alignment.TopCenter),
             shape = RoundedCornerShape(20.dp),
             elevation = 10.dp
         ) {
+
             Column(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 40.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Image(
+                    modifier = Modifier.fillMaxWidth(0.35f)
+                        .aspectRatio(1f)
+                        .padding(bottom = 10.dp),
+                    painter = painterResource("notsy_logo.png"),
+                    contentDescription = "Notsy Logo"
+                )
                 Text(
                     "Start Using Notsy",
                     color = themeYellow,

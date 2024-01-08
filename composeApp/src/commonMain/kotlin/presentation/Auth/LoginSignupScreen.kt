@@ -1,6 +1,5 @@
 package presentation.Auth
 
-import KMPToast
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
@@ -8,7 +7,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +21,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Tab
 import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
@@ -42,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import expect_actuals.KMPToast
 import org.koin.compose.koinInject
 import theme.darkColorBackground
 import theme.themeYellow
@@ -83,92 +81,82 @@ fun LoginSignupScreen() {
         }
         pagerState.animateScrollToPage(selectedTabIndex)
     }
-    val noInteractionSource = remember {
-        MutableInteractionSource()
-    }
-
 
     Box(
-        Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxSize().background(darkColorBackground)
     ) {
-        Card(
-            modifier = Modifier.fillMaxSize()
-                .background(color = darkColorBackground)
-                .align(Alignment.TopCenter), elevation = 10.dp
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.background(color = darkColorBackground)
-            ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    TabRow(
-                        indicator = @Composable {
-                            Box(
-                                modifier = Modifier
-                                    .tabIndicatorOffset(it[selectedTabIndex])
-                                    .height(4.dp)
-                                    .padding(horizontal = 40.dp)
-                                    .background(
-                                        color = themeYellow,
-                                        shape = RoundedCornerShape(8.dp)
-                                    )
-                            )
-                            //   CustomIndicator(tabPositions = it, selectedTabIndex = selectedTabIndex)
-                        },
-                        divider = @Composable {
-                            Spacer(Modifier.weight(1f))
-                        },
-                        backgroundColor = Color.Transparent,
-                        selectedTabIndex = selectedTabIndex
-                    ) {
-                        val isLoginTabSelected = selectedForm == FormType.LOGIN
-                        Tab(
-                            modifier = Modifier,
-                            selected = isLoginTabSelected,
-                            onClick = {
-                                onSelectedTabchange(0)
-                            }) {
-                            Text(
-                                text = "Login",
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(10.dp),
-                                color = if (isLoginTabSelected) themeYellow else unHighlightedTextColor
-                            )
-                        }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                TabRow(
+                    modifier = Modifier.padding(bottom = 40.dp),
+                    indicator = @Composable {
+                        Box(
+                            modifier = Modifier
+                                .tabIndicatorOffset(it[selectedTabIndex])
+                                .height(4.dp)
+                                .padding(horizontal = 40.dp)
+                                .background(
+                                    color = themeYellow,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
+                        )
+                    },
+                    divider = @Composable {
+                        Spacer(Modifier.weight(1f))
+                    },
+                    backgroundColor = Color.Transparent,
+                    selectedTabIndex = selectedTabIndex
+                ) {
+                    val isLoginTabSelected = selectedForm == FormType.LOGIN
+                    Tab(
+                        modifier = Modifier,
+                        selected = isLoginTabSelected,
+                        onClick = {
+                            onSelectedTabchange(0)
+                        }) {
+                        Text(
+                            text = "Login",
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(10.dp),
+                            color = if (isLoginTabSelected) themeYellow else unHighlightedTextColor
+                        )
+                    }
 
-                        Tab(
-                            selected = !isLoginTabSelected,
-                            onClick = {
-                                onSelectedTabchange(1)
-                            }
-                        ) {
-                            Text(
-                                text = "Signup",
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(10.dp),
-                                color = if (!isLoginTabSelected) themeYellow else unHighlightedTextColor
-                            )
+                    Tab(
+                        selected = !isLoginTabSelected,
+                        onClick = {
+                            onSelectedTabchange(1)
                         }
+                    ) {
+                        Text(
+                            text = "Signup",
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(10.dp),
+                            color = if (!isLoginTabSelected) themeYellow else unHighlightedTextColor
+                        )
                     }
                 }
-                HorizontalPager(
-                    state = pagerState,
-                    userScrollEnabled = false,
-                    beyondBoundsPageCount = 0,
-                    verticalAlignment = Alignment.Top
-                ) { page ->
-                    when (page) {
-                        0 -> {
-                            LoginPage(viewStates.value, viewModel::setStateEvents)
-                        }
+            }
+            HorizontalPager(
+                state = pagerState,
+                userScrollEnabled = false,
+                beyondBoundsPageCount = 0,
+                verticalAlignment = Alignment.Top
+            ) { page ->
+                when (page) {
+                    0 -> {
+                        LoginPage(viewStates.value, viewModel::setStateEvents)
+                    }
 
-                        1 -> {
-                            SignUpPage(viewStates.value, viewModel::setStateEvents)
-                        }
+                    1 -> {
+                        SignUpPage(viewStates.value, viewModel::setStateEvents)
                     }
                 }
             }
         }
-
     }
 }
 

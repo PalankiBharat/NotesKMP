@@ -23,6 +23,7 @@ ktorClient = "2.3.7"
 logback = "1.4.14"
 mongo = "4.11.0"
 koin = "3.5.3"
+multiplatformSettings = "1.1.1"
 
 [libraries]
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
@@ -81,6 +82,7 @@ commonCodec = {module = "commons-codec:commons-codec", version.ref = "commonCode
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClient" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClient" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClient" }
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
