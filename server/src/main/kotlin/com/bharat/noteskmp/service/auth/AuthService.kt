@@ -8,7 +8,7 @@ import data.response.LoginResponse
 import io.ktor.http.*
 
 interface AuthService {
-    suspend fun signup(signupRequest: SignupRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>>
+    suspend fun signup(signupRequest: SignupRequest, tokenConfig: TokenConfig): Pair<HttpStatusCode, BasicResponseModel<LoginResponse>>
 
     suspend fun login(
         loginRequest: LoginRequest,

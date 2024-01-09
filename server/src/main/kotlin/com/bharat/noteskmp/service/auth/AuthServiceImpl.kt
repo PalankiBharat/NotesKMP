@@ -22,7 +22,7 @@ class AuthServiceImpl(
     private val authRepository: AuthRepository,
     private val tokenService: TokenService,
 ) : AuthService, KoinComponent {
-    override suspend fun signup(signupRequest: SignupRequest): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
+    override suspend fun signup(signupRequest: SignupRequest, tokenConfig: TokenConfig): Pair<HttpStatusCode, BasicResponseModel<LoginResponse>> {
         return try {
             val isUserExist = authRepository.findUserOrNull(signupRequest.email) != null
             if (isUserExist) {
@@ -32,7 +32,7 @@ class AuthServiceImpl(
                     signupRequest
                 )
                 if (!isSignedUpSuccessful) {
-                    okResult(failureResponse(StringConstants.BASIC_ERROR_MESSAGE))
+                    login(LoginRequest(signupRequest.email,signupRequest.password),tokenConfig)
                 } else {
                     okResult(successResponse(data = null, message = "Signed Up Successfully"))
                 }

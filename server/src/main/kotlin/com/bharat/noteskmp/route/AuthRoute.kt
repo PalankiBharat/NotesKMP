@@ -27,7 +27,7 @@ fun Route.authRoutes(tokenConfig: TokenConfig) {
     route(RouteConstants.API_VERSION) {
         post(RouteConstants.Auth.SIGN_UP_ROUTE) {
             val request = call.receive<SignupRequest>()
-            val response = authService.signup(request)
+            val response = authService.signup(request, tokenConfig)
             call.respond(response.first, response.second)
         }
 

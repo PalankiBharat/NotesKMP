@@ -8,5 +8,5 @@ import data.response.LoginResponse
 
 interface AuthRepository {
     suspend fun login(loginRequest: LoginRequest): ApiResult<LoginResponse?>
-    suspend fun signUp(signupRequest: SignupRequest): ApiResult<String?>
+    suspend fun signUp(signupRequest: SignupRequest): ApiResult<LoginResponse?>
 }

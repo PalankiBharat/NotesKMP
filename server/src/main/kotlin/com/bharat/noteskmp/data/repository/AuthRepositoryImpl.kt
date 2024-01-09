@@ -20,6 +20,7 @@ class AuthRepositoryImpl(
         val saltedHash = hashingService.generateSaltedHash(signupRequest.password, 16)
         val user = UserEntity(
             id = ObjectId().toHexString(),
+            name = signupRequest.name,
             email = signupRequest.email,
             password = saltedHash.hash,
             salt = saltedHash.salt

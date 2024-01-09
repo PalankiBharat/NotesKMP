@@ -6,6 +6,7 @@ import data.api.utils.ApiResult
 import data.preferance.PreferenceManager
 import data.repo.auth.AuthRepository
 import data.requests.LoginRequest
+import data.requests.SignupRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -25,25 +26,61 @@ class AuthViewModel(val repository: AuthRepository, val preferenceManager: Prefe
             is AuthStateEvents.Login -> {
                 login()
             }
+
+            is AuthStateEvents.Signup -> {
+                signup()
+            }
         }
     }
 
-    fun login() {
+    private fun login() {
         viewModelScope.coroutineScope.launch {
             viewStates.value.apply {
                 val response = repository.login(LoginRequest(loginEmail ?: "", loginPassword ?: ""))
                 when (response) {
                     is ApiResult.GenericError -> {
-                       updateState(AuthViewStates(error = response.errorMessage))
+                        updateState(AuthViewStates(message = response.errorMessage))
                     }
 
                     ApiResult.NetworkError -> {
-                        updateState(AuthViewStates(error = "No Internet"))
+                        updateState(AuthViewStates(message = "No Internet"))
                     }
 
                     is ApiResult.Success -> {
                         val data = response.data
                         updateState(AuthViewStates(loginResponseToken = data?.token))
+                        updateState(AuthViewStates(message = "Successfully Logged In"))
+                        preferenceManager.saveToken(data?.token ?: "")
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun signup() {
+        viewModelScope.coroutineScope.launch {
+            viewStates.value.apply {
+                val response = repository.signUp(
+                    SignupRequest(
+                        name = signupName ?: "",
+                        email = signupEmail ?: "",
+                        password = signupPassword ?: ""
+                    )
+                )
+                when (response) {
+                    is ApiResult.GenericError -> {
+                        updateState(AuthViewStates(message = response.errorMessage))
+                    }
+
+                    ApiResult.NetworkError -> {
+                        updateState(AuthViewStates(message = "No Internet"))
+                    }
+
+                    is ApiResult.Success -> {
+                        val data = response.data
+                        updateState(AuthViewStates(loginResponseToken = data?.token))
+                        updateState(AuthViewStates(message = "Signup Successful"))
                         preferenceManager.saveToken(data?.token ?: "")
                     }
                 }
@@ -61,7 +98,7 @@ class AuthViewModel(val repository: AuthRepository, val preferenceManager: Prefe
                 signupName = newStates.signupName ?: this.signupName,
                 signupPassword = newStates.signupPassword ?: this.signupPassword,
                 loginResponseToken = newStates.loginResponseToken ?: this.loginResponseToken,
-                error = newStates.error ?: this.error,
+                message = newStates.message ?: this.message,
             )
             _viewStates.value = newState
         }
@@ -71,6 +108,7 @@ class AuthViewModel(val repository: AuthRepository, val preferenceManager: Prefe
 sealed class AuthStateEvents {
     data class UpdateViewStates(val authViewStates: AuthViewStates) : AuthStateEvents()
     data object Login : AuthStateEvents()
+    data object Signup : AuthStateEvents()
 }
 
 data class AuthViewStates(
@@ -80,5 +118,5 @@ data class AuthViewStates(
     val signupName: String? = null,
     val signupPassword: String? = null,
     val loginResponseToken: String? = null,
-    val error: String? = null
+    val message: String? = null
 )

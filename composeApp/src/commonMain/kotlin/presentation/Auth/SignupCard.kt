@@ -66,7 +66,7 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                     label = {
                         Text("Enter your Name")
                     },
-                    value = loginViewStates.loginEmail ?: "",
+                    value = loginViewStates.signupEmail ?: "",
                     onValueChange = {
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
@@ -79,11 +79,11 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                 )
 
                 OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(0.9f),
+                    modifier = Modifier.fillMaxWidth(0.9f).padding(top = 20.dp),
                     label = {
                         Text("Enter your email")
                     },
-                    value = loginViewStates.loginEmail ?: "",
+                    value = loginViewStates.signupName ?: "",
                     onValueChange = {
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
@@ -111,7 +111,7 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                             )
                         }
                     },
-                    value = loginViewStates.loginPassword ?: "", onValueChange = {
+                    value = loginViewStates.signupPassword ?: "", onValueChange = {
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
                                 authViewStates = AuthViewStates(
@@ -121,20 +121,14 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                         )
                     })
 
-                Text(
-                    text = "Forgot Password ?",
-                    modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 10.dp),
-                    textAlign = TextAlign.End
-                )
-
                 Button(
-                    modifier = Modifier.fillMaxWidth(0.4f).padding(top = 10.dp),
+                    modifier = Modifier.fillMaxWidth(0.4f).padding(top = 20.dp),
                     onClick = {
-                        setStateEvents(AuthStateEvents.Login)
+                        setStateEvents(AuthStateEvents.Signup)
                     }
                 ) {
                     Text(
-                        "SignIn",
+                        "Signup",
                         color = darkColorBackground,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
