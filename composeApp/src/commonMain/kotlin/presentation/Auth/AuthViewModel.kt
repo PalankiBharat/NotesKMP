@@ -86,7 +86,10 @@ class AuthViewModel(val repository: AuthRepository, val preferenceManager: Prefe
                 }
             }
         }
+    }
 
+    fun resetErrorState(){
+        _viewStates.value = _viewStates.value.copy(message = null)
     }
 
     private fun updateState(newStates: AuthViewStates) {

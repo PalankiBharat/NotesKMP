@@ -1,12 +1,7 @@
 package presentation.Auth
 
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,15 +9,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Tab
-import androidx.compose.material.TabPosition
 import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
@@ -38,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import cafe.adriel.voyager.core.screen.Screen
 import expect_actuals.KMPToast
 import org.koin.compose.koinInject
@@ -64,9 +54,11 @@ fun LoginSignupScreen() {
         mutableStateOf(FormType.LOGIN)
     }
     LaunchedEffect(viewStates.value) {
-        viewStates.value.message?.let { KMPToast().showToast(it) }
+        viewStates.value.message?.let {
+            KMPToast().showToast(it)
+            viewModel.resetErrorState()
+        }
     }
-
 
     val (selectedTabIndex, onSelectedTabchange) = remember {
         mutableStateOf(0)

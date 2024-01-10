@@ -15,9 +15,9 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,19 +28,20 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         all {
             languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
         }
 
         val desktopMain by getting
-        
+
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.koin.androidx.compose)
+            api(compose.uiTooling)
+            api(compose.preview)
 
         }
         commonMain.dependencies {
@@ -57,8 +58,8 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(projects.shared)
-
             implementation(libs.multiplatform.settings)
+            implementation(libs.voyager.navigator)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
