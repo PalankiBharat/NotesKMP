@@ -39,12 +39,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import cafe.adriel.voyager.core.screen.Screen
 import expect_actuals.KMPToast
 import org.koin.compose.koinInject
 import theme.darkColorBackground
 import theme.themeYellow
 import theme.unHighlightedTextColor
 
+
+class AuthScreen:Screen{
+    @Composable
+    override fun Content() {
+        LoginSignupScreen()
+    }
+
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -164,43 +173,3 @@ enum class FormType {
     LOGIN, SIGNUP
 }
 
-@Composable
-private fun CustomIndicator(tabPositions: List<TabPosition>, selectedTabIndex: Int) {
-    val transition = updateTransition(selectedTabIndex)
-    val indicatorStart by transition.animateDp(
-        transitionSpec = {
-            if (initialState < targetState) {
-                spring(dampingRatio = 1f, stiffness = 50f)
-            } else {
-                spring(dampingRatio = 1f, stiffness = 800f)
-            }
-        }, label = ""
-    ) {
-        tabPositions[selectedTabIndex].left
-    }
-
-    val indicatorEnd by transition.animateDp(
-        transitionSpec = {
-            if (initialState < targetState) {
-                spring(dampingRatio = 1f, stiffness = 800f)
-            } else {
-                spring(dampingRatio = 1f, stiffness = 50f)
-            }
-        }, label = ""
-    ) {
-        tabPositions[selectedTabIndex].right
-    }
-
-    Box(
-        Modifier
-            .offset(x = indicatorStart)
-            .wrapContentSize(align = Alignment.BottomStart)
-            .width(indicatorEnd - indicatorStart)
-            .padding(2.dp)
-            .fillMaxSize()
-            .background(color = Color.White, RoundedCornerShape(50))
-            .border(BorderStroke(2.dp, Color(0xFFC13D25)), RoundedCornerShape(50))
-            .zIndex(-1f)
-
-    )
-}

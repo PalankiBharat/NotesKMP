@@ -17,7 +17,7 @@ class AuthRepositoryImpl(val authApiService: AuthApiService) : AuthRepository {
 
     }
 
-    override suspend fun signUp(signupRequest: SignupRequest): ApiResult<String?> {
+    override suspend fun signUp(signupRequest: SignupRequest): ApiResult<LoginResponse?> {
         return safeApiCall(Dispatchers.Default){
             authApiService.signUp(signupRequest)
         }
