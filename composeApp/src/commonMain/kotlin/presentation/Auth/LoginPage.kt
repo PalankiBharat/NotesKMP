@@ -1,6 +1,7 @@
 package presentation.Auth
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -19,12 +20,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import theme.darkColorBackground
@@ -33,94 +37,99 @@ import theme.themeYellow
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents) -> Unit) {
+
     val (isPasswordVisible, onVisiblityChange) = remember { mutableStateOf(false) }
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(modifier = Modifier.fillMaxWidth().background(Color.Transparent)) {
         Card(
             modifier = Modifier.fillMaxWidth(0.9f)
-                .align(Alignment.TopCenter),
+                .align(Alignment.TopCenter)
+            ,
             shape = RoundedCornerShape(20.dp),
+            backgroundColor = Color.Transparent,
             elevation = 10.dp
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 40.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Image(
-                    modifier = Modifier.fillMaxWidth(0.35f)
-                        .aspectRatio(1f)
-                        .padding(bottom = 10.dp),
-                    painter = painterResource("notsy_logo.png"),
-                    contentDescription = "Notsy Logo"
-                )
-                Text(
-                    "Go Get Your Notes",
-                    color = themeYellow,
-                    fontSize = 26.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    label = {
-                        Text("Enter your email")
-                    },
-                    value = loginViewStates.loginEmail ?: "",
-                    onValueChange = {
-                        setStateEvents(
-                            AuthStateEvents.UpdateViewStates(
-                                authViewStates = AuthViewStates(
-                                    loginEmail = it
+            Box(modifier = Modifier.fillMaxWidth().padding(vertical = 40.dp)) {
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        modifier = Modifier.fillMaxWidth(0.35f)
+                            .aspectRatio(1f)
+                            .padding(bottom = 10.dp),
+                        painter = painterResource("notsy_logo.png"),
+                        contentDescription = "Notsy Logo"
+                    )
+                    Text(
+                        "Go Get Your Notes",
+                        color = themeYellow,
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(0.9f),
+                        label = {
+                            Text("Enter your email")
+                        },
+                        value = loginViewStates.loginEmail ?: "",
+                        onValueChange = {
+                            setStateEvents(
+                                AuthStateEvents.UpdateViewStates(
+                                    authViewStates = AuthViewStates(
+                                        loginEmail = it
+                                    )
                                 )
-                            )
-                        )
-                    }
-                )
-
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(0.9f).padding(top = 20.dp),
-                    label = {
-                        Text("Enter your Password")
-                    },
-                    visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(
-                            modifier = Modifier.size(24.dp),
-                            onClick = { onVisiblityChange(!isPasswordVisible) }) {
-                            Icon(
-                                painter = painterResource(if (isPasswordVisible) "eye.png" else "eye_hide.png"),
-                                contentDescription = ""
                             )
                         }
-                    },
-                    value = loginViewStates.loginPassword ?: "", onValueChange = {
-                        setStateEvents(
-                            AuthStateEvents.UpdateViewStates(
-                                authViewStates = AuthViewStates(
-                                    loginPassword = it
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(0.9f).padding(top = 20.dp),
+                        label = {
+                            Text("Enter your Password")
+                        },
+                        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(
+                                modifier = Modifier.size(24.dp),
+                                onClick = { onVisiblityChange(!isPasswordVisible) }) {
+                                Icon(
+                                    painter = painterResource(if (isPasswordVisible) "eye.png" else "eye_hide.png"),
+                                    contentDescription = ""
+                                )
+                            }
+                        },
+                        value = loginViewStates.loginPassword ?: "", onValueChange = {
+                            setStateEvents(
+                                AuthStateEvents.UpdateViewStates(
+                                    authViewStates = AuthViewStates(
+                                        loginPassword = it
+                                    )
                                 )
                             )
-                        )
-                    })
+                        })
 
-                Text(
-                    text = "Forgot Password ?",
-                    color = themeYellow,
-                    modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 10.dp),
-                    textAlign = TextAlign.End
-                )
-
-                Button(
-                    modifier = Modifier.fillMaxWidth(0.4f).padding(top = 10.dp),
-                    onClick = {
-                        setStateEvents(AuthStateEvents.Login)
-                    }
-                ) {
                     Text(
-                        "SignIn",
-                        color = darkColorBackground,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp
+                        text = "Forgot Password ?",
+                        color = themeYellow,
+                        modifier = Modifier.fillMaxWidth(0.9f).padding(vertical = 10.dp),
+                        textAlign = TextAlign.End
                     )
+
+                    Button(
+                        modifier = Modifier.fillMaxWidth(0.4f).padding(top = 10.dp),
+                        onClick = {
+                            setStateEvents(AuthStateEvents.Login)
+                        }
+                    ) {
+                        Text(
+                            "SignIn",
+                            color = darkColorBackground,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp
+                        )
+                    }
                 }
             }
         }

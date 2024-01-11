@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.1"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -39,6 +39,7 @@ androidx-material = { group = "com.google.android.material", name = "material", 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
@@ -48,19 +49,22 @@ compose-material = { module = "androidx.compose.material:material", version.ref 
 
 #Common Libraries
 kmm-viewmodel-core = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmmViewmodelCore" }
-kotlinx_serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0"}
+kotlinx_serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.6.0" }
 ktor-serialization-kotlinx = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor_logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor_client_content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
+collectionsImmutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version = "0.3.5" }
+
+
 
 
 #Koin
-koin_android = {module ="io.insert-koin:koin-android", version = "koin" }
-ktor_koin = {module ="io.insert-koin:koin-ktor", version.ref = "koin" }
-koin_core = {module ="io.insert-koin:koin-core", version.ref = "koin" }
-koin_compose = {module ="io.insert-koin:koin-compose", version = "1.1.0" }
-koin_logger = {module ="io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+koin_android = { module = "io.insert-koin:koin-android", version = "koin" }
+ktor_koin = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin_compose = { module = "io.insert-koin:koin-compose", version = "1.1.0" }
+koin_logger = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 
 
 
@@ -68,15 +72,15 @@ koin_logger = {module ="io.insert-koin:koin-logger-slf4j", version.ref = "koin" 
 #Ktor Server Libraries
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
-ktor-contentnegotiaiton = {module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor"}
-ktor-kotlinx_serialization = {module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor"}
+ktor-contentnegotiaiton = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor" }
+ktor-kotlinx_serialization = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
 ktor-server-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
-ktor_mongo = {module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongo"}
-mongoBson = {module = "org.mongodb:bson-kotlinx", version.ref = "mongo"}
-commonCodec = {module = "commons-codec:commons-codec", version.ref = "commonCodecVersion"}
+ktor_mongo = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongo" }
+mongoBson = { module = "org.mongodb:bson-kotlinx", version.ref = "mongo" }
+commonCodec = { module = "commons-codec:commons-codec", version.ref = "commonCodecVersion" }
 
 
 # ktor Client
@@ -93,5 +97,5 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

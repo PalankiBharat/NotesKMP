@@ -30,8 +30,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import expect_actuals.KMPToast
 import org.koin.compose.koinInject
+import presentation.Notes.NotesScreen
 import theme.darkColorBackground
 import theme.themeYellow
 import theme.unHighlightedTextColor
@@ -40,6 +44,7 @@ import theme.unHighlightedTextColor
 class AuthScreen:Screen{
     @Composable
     override fun Content() {
+
         LoginSignupScreen()
     }
 
@@ -53,10 +58,14 @@ fun LoginSignupScreen() {
     var selectedForm by remember {
         mutableStateOf(FormType.LOGIN)
     }
+    val navigator = LocalNavigator.currentOrThrow
     LaunchedEffect(viewStates.value) {
         viewStates.value.message?.let {
             KMPToast().showToast(it)
             viewModel.resetErrorState()
+        }
+        viewStates.value.loginResponseToken?.let {
+            navigator.push(NotesScreen())
         }
     }
 
