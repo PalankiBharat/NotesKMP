@@ -28,7 +28,7 @@ fun NotesItem(note:Note) {
     Card {
         Column {
             Text(text = note.title)
-            Text(text = note.description)
+            Text(text = note.description, maxLines = 10)
         }
     }
 }

@@ -6,7 +6,7 @@ import presentation.Auth.AuthViewStates
 import presentation.Auth.LoginPage
 
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginCardPrev() {
     LoginPage(loginViewStates = AuthViewStates(
