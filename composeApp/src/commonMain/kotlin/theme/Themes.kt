@@ -25,7 +25,6 @@ fun NotesAppTheme(
     MaterialTheme(
         colors = AppDarkColors,
         content = content,
+        typography = getTypography()
     )
-
-
 }

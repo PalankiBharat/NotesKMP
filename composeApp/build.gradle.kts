@@ -11,7 +11,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -72,17 +72,17 @@ kotlin {
 
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation("co.touchlab:stately-common:2.0.6")
+            implementation(libs.stately.common)
         }
     }
 }
 
 android {
     namespace = "com.bharat.noteskmp"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdkVersion(libs.versions.android.compileSdk.get().toInt())
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].res.srcDirs("src/commonMain/resources", "src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
