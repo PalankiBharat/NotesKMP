@@ -31,10 +31,10 @@ class AuthServiceImpl(
                 val isSignedUpSuccessful = authRepository.signUpUser(
                     signupRequest
                 )
-                if (!isSignedUpSuccessful) {
+                if (isSignedUpSuccessful) {
                     login(LoginRequest(signupRequest.email,signupRequest.password),tokenConfig)
                 } else {
-                    okResult(successResponse(data = null, message = "Signed Up Successfully"))
+                    internalServerErrorResult()
                 }
             }
         } catch (e: Exception) {
@@ -51,8 +51,7 @@ class AuthServiceImpl(
             val isUserExist = user != null
             if (isUserExist) {
                 val canLogin = authRepository.loginUser(loginRequest)
-                val token =
-                    tokenService.generate(config = tokenConfig, TokenClaim(name = USER_ID, value = user?.id.toString()))
+                val token = tokenService.generate(config = tokenConfig, TokenClaim(name = USER_ID, value = user?.id.toString()))
                 if (canLogin) {
                     okResult(successResponse(data = LoginResponse(token = token), message = "Signed Up Successfully"))
                 } else {

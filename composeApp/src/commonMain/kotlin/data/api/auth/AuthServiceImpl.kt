@@ -23,6 +23,7 @@ class AuthServiceImpl(private val client: HttpClient) : AuthApiService {
 
     override suspend fun signUp(signupRequest: SignupRequest): BasicResponseModel<LoginResponse> {
         val response = client.post(BASE_URL + "signup") {
+            contentType(ContentType.Application.Json)
             setBody(signupRequest)
         }
         return response.body()

@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -71,7 +70,7 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
                                 authViewStates = AuthViewStates(
-                                    loginEmail = it
+                                    signupEmail = it
                                 )
                             )
                         )
@@ -88,7 +87,7 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
                                 authViewStates = AuthViewStates(
-                                    loginEmail = it
+                                    signupName = it
                                 )
                             )
                         )
@@ -115,7 +114,7 @@ fun SignUpPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents
                         setStateEvents(
                             AuthStateEvents.UpdateViewStates(
                                 authViewStates = AuthViewStates(
-                                    loginPassword = it
+                                    signupPassword = it
                                 )
                             )
                         )
