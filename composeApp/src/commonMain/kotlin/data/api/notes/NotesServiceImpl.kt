@@ -1,5 +1,6 @@
-package data.api.auth
+package data.api.notes
 
+import Note
 import data.models.BasicResponseModel
 import data.requests.LoginRequest
 import data.requests.SignupRequest
@@ -11,16 +12,9 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
-class AuthServiceImpl(private val client: HttpClient) : AuthApiService {
-    override suspend fun login(loginRequest: LoginRequest): BasicResponseModel<LoginResponse> {
-        val response = client.post("signin") {
-            contentType(ContentType.Application.Json)
-            setBody(loginRequest)
-        }
-        return response.body()
-    }
+class NotesServiceImpl(private val client: HttpClient) : NotesApiClient {
 
-    override suspend fun signUp(signupRequest: SignupRequest): BasicResponseModel<LoginResponse> {
+    override suspend fun getAllNotes(): BasicResponseModel<List<Note>> {
         val response = client.post("signup") {
             contentType(ContentType.Application.Json)
             setBody(signupRequest)

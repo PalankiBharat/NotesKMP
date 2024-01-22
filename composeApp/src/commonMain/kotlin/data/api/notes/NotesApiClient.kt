@@ -1,6 +1,9 @@
 package data.api.notes
 
-interface NotesApiClient {
+import Note
+import data.models.BasicResponseModel
 
+interface NotesApiClient {
+    suspend fun getAllNotes(): BasicResponseModel<List<Note>>
 
 }
