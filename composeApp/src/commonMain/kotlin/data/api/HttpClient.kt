@@ -12,10 +12,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import utils.ifTrue
 
-class HttpClient:KoinComponent{
-    val preferenceManager:PreferenceManager by inject()
+class HttpClient(val preferenceManager: PreferenceManager):KoinComponent{
     val BASE_URL: String = "http://10.0.2.2:8081/v1/"
 
     val httpClient = HttpClient {
@@ -35,8 +34,9 @@ class HttpClient:KoinComponent{
         }
         defaultRequest{
             url(BASE_URL)
-            preferenceManager.getToken().isNotBlank().
-            header("Authorization","Bearer ${"sdsd"}")
+            preferenceManager.getToken().isNotBlank().ifTrue {
+                header("Authorization","Bearer ${preferenceManager.getToken()}")
+            }
         }
     }
 }

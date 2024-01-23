@@ -1,17 +1,12 @@
 package presentation.Notes
 
 import Note
-import androidx.compose.animation.core.EaseInOutBounce
-import androidx.compose.animation.core.Easing
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateValue
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -29,8 +24,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -39,12 +35,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import expect_actuals.KMPToast
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import presentation.Notes.Notes.noteItem
-import presentation.Notes.Notes.noteItem2
-import presentation.Notes.Notes.noteItem3
-import presentation.Notes.Notes.noteItem4
+import org.koin.compose.koinInject
 import presentation.Utils.ifTrue
 import theme.cardGradColor1
 import theme.cardGradColor2
@@ -58,23 +52,29 @@ class NotesScreen : Screen {
 }
 
 @Composable
-fun NotesPage() {
+fun NotesPage(viewModel: NotesViewModel = koinInject()) {
+    LaunchedEffect(Unit) {
+        //initialisation
+        viewModel.setStateEvents(NotesStateEvents.GetAllNotes)
+    }
+
+    val viewStates = viewModel.viewStates.collectAsState()
+
+    LaunchedEffect(viewStates.value) {
+        viewStates.value.message?.let {
+            KMPToast().showToast(it)
+            viewModel.resetErrorState()
+        }
+    }
+
     Column(modifier = Modifier.fillMaxSize().background(darkColorBackground).padding(20.dp)) {
         Text(text = "Your Notes", style = MaterialTheme.typography.h2, color = Color.White)
+        val listOfNotes = viewStates.value.listOfNotes ?: emptyList()
         NotesListing(
-            listOf(
-                noteItem3,
-                noteItem,
-                noteItem4,
-                noteItem2,
-                noteItem3,
-                noteItem,
-                noteItem2,
-                noteItem4,
-                noteItem,
-            ).toImmutableList(),
+            listOfNotes.toImmutableList(),
             modifier = Modifier.padding(top = 10.dp)
         )
+
     }
 }
 
@@ -159,7 +159,11 @@ fun NotesItem(
         targetValue = 1f,
         typeConverter = Float.VectorConverter,
         animationSpec = infiniteRepeatable(
-            animation = tween(delayMillis = 0, durationMillis = 300, easing = LinearOutSlowInEasing),
+            animation = tween(
+                delayMillis = 0,
+                durationMillis = 300,
+                easing = LinearOutSlowInEasing
+            ),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -167,27 +171,31 @@ fun NotesItem(
         modifier = Modifier
             .ifTrue(isBoxHighlighted, modifier = Modifier.rotate(rotation))
             .padding(horizontal = 8.dp).background(
-            brush = Brush.verticalGradient(
-                listOf(
-                    cardGradColor1,
-                    cardGradColor1,
-                    cardGradColor2,
+                brush = Brush.verticalGradient(
+                    listOf(
+                        cardGradColor1,
+                        cardGradColor1,
+                        cardGradColor2,
+                    )
+                ),
+                shape = RoundedCornerShape(20.dp)
+            ).combinedClickable(
+                onLongClick = {
+                    OnBoxHighlightChange(true)
+                    onNoteLongClick()
+                },
+                onClick = {
+                    OnBoxHighlightChange(false)
+                    onNotesClick()
+                }
+            ).ifTrue(
+                isBoxHighlighted,
+                Modifier.border(
+                    width = 2.dp,
+                    color = Color.White,
+                    shape = RoundedCornerShape(20.dp)
                 )
-            ),
-            shape = RoundedCornerShape(20.dp)
-        ).combinedClickable(
-            onLongClick = {
-                OnBoxHighlightChange(true)
-                onNoteLongClick()
-            },
-            onClick = {
-                OnBoxHighlightChange(false)
-                onNotesClick()
-            }
-        ).ifTrue(
-            isBoxHighlighted,
-            Modifier.border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(20.dp))
-        )
+            )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = note.title, color = Color.White, style = MaterialTheme.typography.h4)
