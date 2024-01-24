@@ -1,6 +1,7 @@
 package com.bharat.noteskmp.route
 
 import com.bharat.noteskmp.service.notes.NotesService
+import com.bharat.noteskmp.utils.sendResponse
 import com.bharat.noteskmp.utils.userId
 import data.requests.AddNotesRequest
 import data.requests.EditNotesRequest
@@ -25,21 +26,22 @@ fun Route.notesRoute() {
                     val userId = call.userId() ?: ""
                     val notesParam = call.receive<AddNotesRequest>()
                     val response = notesService.addNote(notesParam, userId)
-                    call.respond(response.first, response.second)
+                    call.sendResponse(response)
                 }
 
                 delete {
                     val noteId = call.parameters["id"]
                         ?: return@delete call.respond(HttpStatusCode.BadRequest)
                     val deleteResponse = notesService.deleteNote(noteId)
-                    call.respond(deleteResponse.first, deleteResponse.second)
+                    call.sendResponse(deleteResponse)
 
                 }
 
                 post {
                     val userId = call.userId() ?: ""
-                    val editNoteRequest =  call.receive<EditNotesRequest>()
-
+                    val editNoteRequest = call.receive<EditNotesRequest>()
+                    val editResponse = notesService.editNote(editNoteRequest, userId)
+                    call.sendResponse(editResponse)
                 }
 
 
@@ -49,12 +51,16 @@ fun Route.notesRoute() {
                         "Unauthorised"
                     )
                     val notesResponse = notesService.getNotesPerUserId(userId)
-                    call.respond(notesResponse.first, notesResponse.second)
+                    call.sendResponse(notesResponse)
                 }
             }
         }
     }
 
 }
+
+
+
+
 
 

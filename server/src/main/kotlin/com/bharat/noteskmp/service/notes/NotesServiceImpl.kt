@@ -11,6 +11,7 @@ import com.bharat.noteskmp.utils.internalServerErrorResult
 import com.bharat.noteskmp.utils.okResult
 import com.bharat.noteskmp.utils.safeServerCall
 import data.requests.AddNotesRequest
+import data.requests.EditNotesRequest
 import io.ktor.http.HttpStatusCode
 import org.bson.types.ObjectId
 
@@ -69,20 +70,36 @@ class NotesServiceImpl(
         return safeServerCall {
             val wasDeleted = notesRepository.deleteNote(noteId = noteId)
             if (wasDeleted) {
-                okResult(successResponse(message = "Note Successfully Deleted",data = null))
+                okResult(successResponse(message = "Note Successfully Deleted", data = null))
             } else {
                 okResult(failureResponse(errorMessage = "Note was not deleted Please try again"))
             }
         }
     }
 
-    override suspend fun editNote(note: Note): Pair<HttpStatusCode, BasicResponseModel<Note>> {
+    override suspend fun editNote(
+        note: EditNotesRequest,
+        userId: String
+    ): Pair<HttpStatusCode, BasicResponseModel<Note>> {
         return safeServerCall {
-            val wasEdited = notesRepository.editNote(note = note)
-            if (wasEdited) {
-                okResult(successResponse(message = "Note Successfully Edited", data = note))
+            val oldNote = notesRepository.getNoteById(noteId = note.id)
+            if (oldNote == null) {
+                commonResult(HttpStatusCode.BadRequest, failureResponse("Bad Request"))
             } else {
-                okResult(failureResponse(errorMessage = "Note was not Edited Please try again"))
+                val newNote = Note(
+                    id = oldNote.id,
+                    title = note.title,
+                    userId = userId,
+                    description = note.description,
+                    dateCreated = oldNote.dateCreated,
+                    dateUpdated = System.currentTimeMillis(),
+                )
+                val wasEdited = notesRepository.editNote(note = newNote)
+                if (wasEdited) {
+                    okResult(successResponse(message = "Note Successfully Edited", data = newNote))
+                } else {
+                    okResult(failureResponse(errorMessage = "Note was not Edited Please try again"))
+                }
             }
         }
     }
