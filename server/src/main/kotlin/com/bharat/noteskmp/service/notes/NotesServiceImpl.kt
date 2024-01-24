@@ -5,17 +5,24 @@ import com.bharat.noteskmp.data.repository.NotesRepository
 import com.bharat.noteskmp.data.response.BasicResponseModel
 import com.bharat.noteskmp.data.response.failureResponse
 import com.bharat.noteskmp.data.response.successResponse
-import com.bharat.noteskmp.utils.*
+import com.bharat.noteskmp.utils.StringConstants
+import com.bharat.noteskmp.utils.commonResult
+import com.bharat.noteskmp.utils.internalServerErrorResult
+import com.bharat.noteskmp.utils.okResult
+import com.bharat.noteskmp.utils.safeServerCall
 import data.requests.AddNotesRequest
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 import org.bson.types.ObjectId
 
 
 class NotesServiceImpl(
     val notesRepository: NotesRepository
 ) : NotesService {
-    override suspend fun addNote(note: AddNotesRequest, userId: String): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
-       return safeServerCall {
+    override suspend fun addNote(
+        note: AddNotesRequest,
+        userId: String
+    ): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
+        return safeServerCall {
             val isNotesAdded = notesRepository.addNote(
                 Note(
                     id = ObjectId().toHexString(),
@@ -44,6 +51,39 @@ class NotesServiceImpl(
             }
         } catch (e: Exception) {
             internalServerErrorResult()
+        }
+    }
+
+    override suspend fun getNoteById(noteId: String): Pair<HttpStatusCode, BasicResponseModel<Note>> {
+        return safeServerCall {
+            val note = notesRepository.getNoteById(noteId)
+            if (note != null) {
+                okResult(successResponse(message = "Note Found", data = note))
+            } else {
+                okResult(failureResponse(errorMessage = "No Data Found"))
+            }
+        }
+    }
+
+    override suspend fun deleteNote(noteId: String): Pair<HttpStatusCode, BasicResponseModel<Nothing>> {
+        return safeServerCall {
+            val wasDeleted = notesRepository.deleteNote(noteId = noteId)
+            if (wasDeleted) {
+                okResult(successResponse(message = "Note Successfully Deleted",data = null))
+            } else {
+                okResult(failureResponse(errorMessage = "Note was not deleted Please try again"))
+            }
+        }
+    }
+
+    override suspend fun editNote(note: Note): Pair<HttpStatusCode, BasicResponseModel<Note>> {
+        return safeServerCall {
+            val wasEdited = notesRepository.editNote(note = note)
+            if (wasEdited) {
+                okResult(successResponse(message = "Note Successfully Edited", data = note))
+            } else {
+                okResult(failureResponse(errorMessage = "Note was not Edited Please try again"))
+            }
         }
     }
 }

@@ -1,19 +1,19 @@
 package com.bharat.noteskmp.route
 
-import com.bharat.noteskmp.route.RouteConstants.User.USER_ID
-import com.bharat.noteskmp.route.RouteConstants.User.USER_ID_PATH
-import com.bharat.noteskmp.route.authenticate
 import com.bharat.noteskmp.service.notes.NotesService
 import com.bharat.noteskmp.utils.userId
 import data.requests.AddNotesRequest
-import io.ktor.client.engine.*
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import data.requests.EditNotesRequest
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.call
+import io.ktor.server.auth.authenticate
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import org.koin.ktor.ext.inject
 
 fun Route.notesRoute() {
@@ -28,8 +28,26 @@ fun Route.notesRoute() {
                     call.respond(response.first, response.second)
                 }
 
+                delete {
+                    val noteId = call.parameters["id"]
+                        ?: return@delete call.respond(HttpStatusCode.BadRequest)
+                    val deleteResponse = notesService.deleteNote(noteId)
+                    call.respond(deleteResponse.first, deleteResponse.second)
+
+                }
+
+                post {
+                    val userId = call.userId() ?: ""
+                    val editNoteRequest =  call.receive<EditNotesRequest>()
+
+                }
+
+
                 get {
-                    val userId = call.userId() ?: return@get call.respond(HttpStatusCode.Unauthorized, "Unauthorised")
+                    val userId = call.userId() ?: return@get call.respond(
+                        HttpStatusCode.Unauthorized,
+                        "Unauthorised"
+                    )
                     val notesResponse = notesService.getNotesPerUserId(userId)
                     call.respond(notesResponse.first, notesResponse.second)
                 }
