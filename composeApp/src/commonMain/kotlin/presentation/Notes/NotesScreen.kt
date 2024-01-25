@@ -17,24 +17,32 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import expect_actuals.KMPToast
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -53,6 +61,9 @@ class NotesScreen : Screen {
 
 @Composable
 fun NotesPage(viewModel: NotesViewModel = koinInject()) {
+
+    val navigator = LocalNavigator.currentOrThrow
+
     LaunchedEffect(Unit) {
         //initialisation
         viewModel.setStateEvents(NotesStateEvents.GetAllNotes)
@@ -67,14 +78,30 @@ fun NotesPage(viewModel: NotesViewModel = koinInject()) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(darkColorBackground).padding(20.dp)) {
-        Text(text = "Your Notes", style = MaterialTheme.typography.h2, color = Color.White)
-        val listOfNotes = viewStates.value.listOfNotes ?: emptyList()
-        NotesListing(
-            listOfNotes.toImmutableList(),
-            modifier = Modifier.padding(top = 10.dp)
-        )
+    Box(modifier = Modifier.fillMaxSize().background(darkColorBackground).padding(20.dp)) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Text(text = "Your Notes", style = MaterialTheme.typography.h2, color = Color.White)
+            val listOfNotes = viewStates.value.listOfNotes ?: emptyList()
+            NotesListing(
+                listOfNotes.toImmutableList(),
+                modifier = Modifier.padding(top = 10.dp)
+            )
+        }
 
+        FloatingActionButton(
+            shape = RoundedCornerShape(22.dp),
+            modifier = Modifier.align(Alignment.BottomEnd),
+            onClick = {
+                navigator.push(AddNotesScreen())
+                /* do something */
+            }
+        ) {
+            Icon(
+                Icons.Filled.Add,
+                contentDescription = "Add",
+                modifier = Modifier.size(60.dp),
+            )
+        }
     }
 }
 
