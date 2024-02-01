@@ -27,6 +27,7 @@ val composeAppModule = module {
     single { NotesRepositoryImpl(get()) } bind NotesRepository::class
     single { AuthViewModel(get(),get()) }
     single { NotesViewModel(get()) }
+    // Hi new change
 }
 
 fun initComposeKoin(

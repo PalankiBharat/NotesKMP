@@ -32,7 +32,7 @@ fun AddNotesScreenComposable() {
             modifier = Modifier.fillMaxWidth(),
             textStyle = MaterialTheme.typography.h3,
             label = {
-                Text("Title", )
+                Text("Title", style = MaterialTheme.typography.h3)
             }
         )
     }
