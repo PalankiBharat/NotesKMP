@@ -9,9 +9,8 @@ plugins {
 
 group = "com.bharat.noteskmp"
 version = "1.0.0"
-val mainClassName = "com.bharat.noteskmp.ApplicationKt"
 application {
-    mainClass.set(mainClassName)
+    mainClass.set("com.bharat.noteskmp.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 
@@ -41,9 +40,15 @@ dependencies {
     implementation(libs.koin.logger)
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.bharat.noteskmp.ApplicationKt"
+    }
+}
 ktor {
     fatJar {
         archiveFileName.set("fat.jar")
     }
 }
+
 
