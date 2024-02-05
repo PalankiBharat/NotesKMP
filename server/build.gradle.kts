@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.ktor)
@@ -8,8 +9,9 @@ plugins {
 
 group = "com.bharat.noteskmp"
 version = "1.0.0"
+val mainClassName = "com.bharat.noteskmp.ApplicationKt"
 application {
-    mainClass.set("com.bharat.noteskmp.ApplicationKt")
+    mainClass.set(mainClassName)
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["development"] ?: "false"}")
 }
 
@@ -39,3 +41,4 @@ dependencies {
     implementation(libs.koin.logger)
 
 }
+
