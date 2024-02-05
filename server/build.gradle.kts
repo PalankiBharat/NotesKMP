@@ -39,6 +39,23 @@ dependencies {
     implementation(libs.ktor.koin)
     implementation(libs.koin.core)
     implementation(libs.koin.logger)
-
 }
 
+ktor {
+    fatJar {
+        archiveFileName.set("fat.jar")
+    }
+
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+        localImageName.set("noteskmp-docker-image")
+        imageTag.set("1.0.0")
+        portMappings.set(listOf(
+            io.ktor.plugin.features.DockerPortMapping(
+                80,
+                8080,
+                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+            )
+        ))
+    }
+}
