@@ -41,3 +41,9 @@ dependencies {
     implementation(libs.koin.logger)
 }
 
+ktor {
+    fatJar {
+        archiveFileName.set("fat.jar")
+    }
+}
+
