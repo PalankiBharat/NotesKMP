@@ -27,8 +27,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import theme.darkColorBackground
@@ -57,7 +55,7 @@ fun LoginPage(loginViewStates: AuthViewStates, setStateEvents: (AuthStateEvents)
                         modifier = Modifier.fillMaxWidth(0.35f)
                             .aspectRatio(1f)
                             .padding(bottom = 10.dp),
-                        painter = painterResource("notsy_logo.png"),
+                        painter = painterResource( "notsy_logo.png"),
                         contentDescription = "Notsy Logo"
                     )
                     Text(

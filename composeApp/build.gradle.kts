@@ -7,11 +7,12 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
 }
 
+
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "17"
+                jvmTarget = "11"
             }
         }
     }
@@ -28,6 +29,7 @@ kotlin {
             isStatic = true
         }
     }
+
 
     sourceSets {
         all {
@@ -79,11 +81,12 @@ kotlin {
 
 android {
     namespace = "com.bharat.noteskmp"
-    compileSdkVersion(libs.versions.android.compileSdk.get().toInt())
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/commonMain/resources", "src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources", "src/androidMain/res")
+
 
     defaultConfig {
         applicationId = "com.bharat.noteskmp"
@@ -109,9 +112,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 compose.desktop {
@@ -123,5 +127,7 @@ compose.desktop {
             packageName = "com.bharat.noteskmp"
             packageVersion = "1.0.0"
         }
+
     }
 }
+
