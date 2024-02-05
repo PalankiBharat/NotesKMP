@@ -6,5 +6,5 @@ RUN gradle buildFatJar --no-daemon
 FROM openjdk:11
 EXPOSE 8080:8080
 RUN mkdir /app
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/noteskmp.jar
-ENTRYPOINT ["java","-jar","/app/noteskmp.jar"]
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/server-1.0.0.jar
+ENTRYPOINT ["java","-jar","/app/server-1.0.0.jar"]
