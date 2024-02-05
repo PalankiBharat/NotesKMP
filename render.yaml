@@ -1,0 +1,5 @@
+services:
+  - name: notesApp
+    type: web
+    buildCommand: gradle build
+    startCommand: java -jar server/build/libs/server-all.jar
