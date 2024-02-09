@@ -26,6 +26,7 @@ class NotesViewModel(val repository: NotesRepository) : KMMViewModel() {
         }
     }
 
+
     private fun getAllNotes() {
         viewModelScope.coroutineScope.launch {
             viewStates.value.apply {

@@ -15,6 +15,7 @@ import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import presentation.Auth.AuthViewModel
+import presentation.Notes.AddNotesViewModel
 import presentation.Notes.NotesViewModel
 
 
@@ -27,6 +28,7 @@ val composeAppModule = module {
     single { NotesRepositoryImpl(get()) } bind NotesRepository::class
     single { AuthViewModel(get(),get()) }
     single { NotesViewModel(get()) }
+    single { AddNotesViewModel(get()) }
 }
 
 fun initComposeKoin(

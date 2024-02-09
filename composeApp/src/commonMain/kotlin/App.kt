@@ -3,6 +3,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import data.preferance.PreferenceManager
 import org.koin.compose.koinInject
 import presentation.Auth.AuthScreen
+import presentation.Notes.AddNotesScreen
 import presentation.Notes.NotesScreen
 import theme.NotesAppTheme
 
@@ -10,10 +11,11 @@ import theme.NotesAppTheme
 fun App() {
     val preferenceManager: PreferenceManager = koinInject()
     NotesAppTheme {
-        if (preferenceManager.getToken().isBlank()) {
+        Navigator(AddNotesScreen())
+        /*if (preferenceManager.getToken().isBlank()) {
             Navigator(AuthScreen())
         } else {
             Navigator(NotesScreen())
-        }
+        }*/
     }
 }
